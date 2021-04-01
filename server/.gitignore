@@ -1,0 +1,11 @@
+# modules
+/node_modules
+
+# build version
+/dist
+
+# public
+public/
+
+# misc 
+.env
