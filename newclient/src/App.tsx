@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { socket } from ".";
 import { Dark, Light } from "./ColorTheme";
 import ThemeCtxProvider, { ThemeContext } from "./Context/ThemeContext";
 import UserCtxProvider, { UserContext } from "./Context/UserContext";
@@ -38,10 +39,17 @@ const Distributor = () => {
 
       const userData = { ...userRes.data, avatar };
 
-      console.log(userData);
-
       if (userRes.status) {
         userCtx?.setUserData(userData);
+        socket.emit("conn", {
+          user: {
+            id: userData.id,
+            username: userData.username,
+            name: userData.name,
+            email: userData.email,
+            avatar: avatarRes.data,
+          },
+        });
       } else {
         userCtx?.setUserData(null);
       }
@@ -64,6 +72,7 @@ const Distributor = () => {
     fetchuser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return userCtx?.userData ? (
     userCtx.userData.isActivated ? (
       <RoutesPrivate />

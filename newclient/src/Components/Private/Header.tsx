@@ -6,6 +6,7 @@ import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
 import { ThemeInterface } from "../../Interfaces";
 import { baseurl } from "../../routes";
+import { Button } from "../Public/Button";
 
 export default function Header() {
   const userCtx = useContext(UserContext);
@@ -30,9 +31,30 @@ export default function Header() {
     >
       <div className={`flex text-3xl font-bold ${theme.text.main}`}>Corder</div>
       <div className="flex">
-        <Button label="Home" to="/" css={theme.text.main} />
-        <Button label="To-do" to="/todo" css={theme.text.main} />
-        <Button label="" to="/docs" css={theme.text.main} />
+        <Button
+          label="Home"
+          to="/"
+          css={
+            "flex mx-2 py-2 px-4 font-thin text-xl cursor-pointer " +
+            theme.text.main
+          }
+        />
+        <Button
+          label="Teams"
+          to="/teams"
+          css={
+            "flex mx-2 py-2 px-4 font-thin text-xl cursor-pointer " +
+            theme.text.main
+          }
+        />
+        <Button
+          label="To-do"
+          to="/todo"
+          css={
+            "flex mx-2 py-2 px-4 font-thin text-xl cursor-pointer " +
+            theme.text.main
+          }
+        />
       </div>
 
       <div className="relative">
@@ -51,28 +73,6 @@ export default function Header() {
     </header>
   );
 }
-
-const Button = ({
-  label,
-  to,
-  css,
-}: {
-  label: string;
-  to: string;
-  css: string;
-}) => {
-  const history = useHistory();
-
-  const goto = (to: string) => history.push(to);
-  return (
-    <div
-      className={`flex mx-2 py-2 px-4 font-thin text-xl cursor-pointer ${css}`}
-      onClick={() => goto(to)}
-    >
-      {label}
-    </div>
-  );
-};
 
 const Menu = ({ email, theme }: { email: string; theme: ThemeInterface }) => {
   const handleSignOut = async () => {

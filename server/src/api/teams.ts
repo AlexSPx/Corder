@@ -14,6 +14,7 @@ import {
 import { upload } from "../multerConfig";
 import { getRepository } from "typeorm";
 import { Team } from "../entities/teamEntity";
+import { getAllOnline } from "../online";
 
 const router = express.Router();
 
@@ -75,6 +76,11 @@ router.post("/fetchteammembers", isAuth, async (req, res) => {
   } else {
     res.status(401).json(errors);
   }
+});
+
+router.post("/fetchonline", isAuth, async (req, res) => {
+  const whoIsOnline = getAllOnline(req.body.ids);
+  res.status(200).json(whoIsOnline);
 });
 
 router.post("/fetchteamadmins", isAuth, async (req, res) => {

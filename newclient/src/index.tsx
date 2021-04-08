@@ -2,6 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import { io } from "socket.io-client";
+import { socketurl } from "./routes";
+
+export const socket = io(socketurl, {
+  transports: ["websocket"],
+  withCredentials: true,
+});
 
 ReactDOM.render(
   <React.StrictMode>

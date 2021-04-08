@@ -18,6 +18,8 @@ import cors from "cors";
 import bodyparser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import { Socket } from "socket.io";
+import { addUser, getAllOnline, removeUser } from "./online";
 
 dotenv.config();
 
@@ -43,7 +45,11 @@ dotenv.config();
   const http = require("http").Server(app);
   const io = require("socket.io")(http, {
     cors: {
-      origin: ["https://localhost:3000/word", "https://localhost:3006/"],
+      origin: [
+        "https://localhost:3000/word",
+        "https://localhost:3006/",
+        "https://localhost:3000/",
+      ],
       methods: ["GET", "POST"],
       allowedHeaders: ["my-custom-header"],
       credentials: true,
@@ -66,9 +72,17 @@ dotenv.config();
   app.use(bodyparser.json());
 
   //sockets
-  io.on("connection", (socket: { on: any }) => {
+  io.on("connection", (socket: Socket) => {
+    socket.on("conn", ({ user }: { user: any }) => {
+      addUser(socket.id, user);
+    });
+
     socket.on("new-operations", (data: any) => {
       io.emit(`new-remote-operations-${data.docid}`, data);
+    });
+
+    socket.on("disconnect", () => {
+      removeUser(socket.id);
     });
   });
 

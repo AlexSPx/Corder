@@ -1,8 +1,8 @@
 export interface userDataInterface {
-  id: String;
-  email: String;
-  username: String;
-  name: String;
+  id: string;
+  email: string;
+  username: string;
+  name: string;
   avatar: any;
   isActivated: boolean;
   isAdmin: boolean;
@@ -42,6 +42,14 @@ export interface ThemeInterface {
   profile: string;
 }
 
+export interface OnlineUserInterface {
+  id: string;
+  email: string;
+  username: string;
+  name: string;
+  avatar: any;
+}
+
 export interface SignupInterface {
   username: String;
   name: String;
@@ -61,4 +69,32 @@ export interface ProjectInterface {
   status: boolean;
   range: string[];
   teamID: string[];
+}
+
+export interface TeamInterface {
+  id: string;
+  creator_id: string;
+  name: string;
+  displayname: string;
+  description: TeamDescription;
+  members: string[];
+  admins: string[];
+  image: BufferM | null;
+}
+
+interface BufferM {
+  type: string;
+  data: Buffer;
+}
+
+export interface TeamDescription {
+  company: string;
+  desc: string;
+}
+
+export interface InviteInterface {
+  id: string;
+  teamID: string;
+  userID: string;
+  status: boolean;
 }

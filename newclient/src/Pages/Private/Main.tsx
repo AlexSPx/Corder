@@ -5,6 +5,7 @@ import ProjectCard from "../../Components/Private/ProjectCard";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
 import { ProjectInterface } from "../../Interfaces";
+import { Collection } from "../../public/SmallSvgs";
 import { baseurl } from "../../routes";
 
 export default function Main() {
@@ -30,7 +31,13 @@ export default function Main() {
   }, []);
 
   const mapProjects = projects?.map((project) => {
-    return <ProjectCard project={project} theme={theme} />;
+    return (
+      <ProjectCard
+        project={project}
+        theme={theme}
+        key={project.id.toString()}
+      />
+    );
   });
 
   return (
@@ -52,17 +59,22 @@ export default function Main() {
               </p>
             </div>
           </div>
-
           <button
             className={`flex ${theme.buttonColor} py-2 px-10 rounded-lg my-1 justify-center`}
           >
             Create new Team
           </button>
           <button
-            className={`flex ${theme.buttonColor} py-2 px-10 rounded-lg my-1 justify-center`}
+            className={`flex border rounded-xl py-1 px-6 hover:${theme.background.darker} ${theme.profile} py-2 px-10 rounded-lg my-1 justify-center`}
           >
             Join a Team
           </button>
+          <div className="flex flex-col my-4">
+            <div className="flex flex-row mb-1">
+              <Collection />
+              <p className="mx-2">Projects: {projects?.length}</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -73,16 +85,18 @@ export default function Main() {
           className={`flex h-28 border-b items-center justify-between ${theme.border}`}
         >
           <p className={`text-3xl mx-12`}>Projects</p>
-          <div className={`flex text-2xl mx-12 `}>Sort</div>
+          <div
+            className={`flex text-2xl mx-12 border ${theme.border} rounded-xl py-1 px-6 hover:${theme.background.darker} cursor-pointer`}
+          >
+            Sort
+          </div>
         </div>
         {mapProjects}
       </div>
 
       <div
         className={`w-1/4 overflow-hidden ${theme.background.body} border-l ${theme.border}`}
-      >
-        S
-      </div>
+      ></div>
     </div>
   );
 }
