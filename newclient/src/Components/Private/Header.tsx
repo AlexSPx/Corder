@@ -85,7 +85,7 @@ const Menu = ({ email, theme }: { email: string; theme: ThemeInterface }) => {
   return (
     <div
       className={`absolute sm:block
-      right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48`}
+      right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48 z-10`}
     >
       <div
         className={`${theme.background.darker} ${theme.text.main} py-1 rounded-md w-48 divide-y divide-fuchsia-300 text-l`}

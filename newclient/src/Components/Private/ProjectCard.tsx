@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import {
   ProjectInterface,
   TeamInterface,
@@ -15,6 +16,8 @@ export default function ProjectCard({
   project: ProjectInterface;
   theme: ThemeInterface;
 }) {
+  const history = useHistory();
+
   const [team, setTeam] = useState<TeamInterface | null>();
 
   const dateCheck =
@@ -42,6 +45,8 @@ export default function ProjectCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const goto = (to: string) => history.push(to);
+
   return (
     <div
       className={`flex flex-col h-28 border-b ${theme.border} hover:${theme.background.darker}`}
@@ -50,7 +55,14 @@ export default function ProjectCard({
         <div className="flex flex-row mb-4 mx-5 align-center justify-between">
           <div className={`flex flex-rol`}>
             {dateCheck ? <DateActive /> : <DateInactive />}
-            <p className={`text-xl mx-3`}>{project.name}</p>
+            <p
+              className={`text-xl mx-3 cursor-pointer`}
+              onClick={() =>
+                goto(`../../${team?.name}/project/${project.name}`)
+              }
+            >
+              {project.name}
+            </p>
           </div>
           <div className={`flex text-lg`}>Visit Team</div>
         </div>

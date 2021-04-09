@@ -115,7 +115,7 @@ export default function TeamProjects() {
               ""
             )}
             <div className={`flex flex-col font-thin items-center`}>
-              <p className={`text-3xl`}>{team?.displayname}</p>
+              <p className={`text-3xl text-center`}>{team?.displayname}</p>
               <p className={`text-lg ${theme.text.secondary}`}>#{team?.name}</p>
             </div>
           </div>

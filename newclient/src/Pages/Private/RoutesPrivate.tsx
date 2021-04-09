@@ -5,6 +5,8 @@ import Header from "../../Components/Private/Header";
 const Main = React.lazy(() => import("./Main"));
 const Teams = React.lazy(() => import("./Teams"));
 const TeamProjects = React.lazy(() => import("./TeamProjects"));
+const CreateTeam = React.lazy(() => import("./CreateTeam"));
+const Project = React.lazy(() => import("./Project"));
 const NotFound = React.lazy(() => import("../NotFound"));
 
 export default function RoutesPrivate() {
@@ -15,8 +17,10 @@ export default function RoutesPrivate() {
           <Header />
           <Switch>
             <Route exact path="/" component={Main} />
-            <Route path="/teams" component={Teams} />
+            <Route exact path="/teams" component={Teams} />
+            <Route exact path="/teams/create" component={CreateTeam} />
             <Route path="/:name/projects" component={TeamProjects} />
+            <Route path="/:name/project/:projectname" component={Project} />
             <Route component={NotFound} />
           </Switch>
         </div>

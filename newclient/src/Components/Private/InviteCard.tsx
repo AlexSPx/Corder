@@ -40,7 +40,7 @@ export default function InviteCard({
       status: true,
     };
 
-    const res = await axios.post(`${baseurl}/api/teams/invres`, reqbody, {
+    const res = await axios.post(`${baseurl}/teams/invres`, reqbody, {
       withCredentials: true,
     });
 

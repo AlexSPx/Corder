@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { Light } from "../../ColorTheme";
 import ProjectCard from "../../Components/Private/ProjectCard";
 import { ThemeContext } from "../../Context/ThemeContext";
@@ -16,6 +17,9 @@ export default function Main() {
     themeCtx?.themeData.data === undefined ? Light : themeCtx.themeData.data;
 
   const [projects, setProjects] = useState<ProjectInterface[]>();
+
+  const history = useHistory();
+  const goto = (to: string) => history.push(to);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -61,6 +65,7 @@ export default function Main() {
           </div>
           <button
             className={`flex ${theme.buttonColor} py-2 px-10 rounded-lg my-1 justify-center`}
+            onClick={() => goto("/teams/create")}
           >
             Create new Team
           </button>
