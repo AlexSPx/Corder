@@ -3,6 +3,8 @@ const OnlineMap = new Map();
 export const addUser = (socketid: string, user: any) => {
   if (!OnlineMap.has(socketid)) {
     OnlineMap.set(socketid, user);
+    console.log(user.id);
+    console.log("here");
   }
 };
 

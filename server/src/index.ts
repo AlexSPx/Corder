@@ -18,8 +18,10 @@ import cors from "cors";
 import bodyparser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import { Socket } from "socket.io";
-import { addUser, getAllOnline, removeUser } from "./online";
+import { createServer } from "http";
+import { Server, Socket } from "socket.io";
+import { addUser, removeUser } from "./online";
+import { env } from "process";
 
 dotenv.config();
 
@@ -42,18 +44,9 @@ dotenv.config();
     });
 
   const app = require("express")();
-  const http = require("http").Server(app);
-  const io = require("socket.io")(http, {
-    cors: {
-      origin: [
-        "https://localhost:3000/word",
-        "https://localhost:3006/",
-        "https://localhost:3000/",
-      ],
-      methods: ["GET", "POST"],
-      allowedHeaders: ["my-custom-header"],
-      credentials: true,
-    },
+  const http = createServer(app);
+  const io = new Server(http, {
+    cors: {},
   });
   const port: Number = 5001;
 
@@ -73,7 +66,11 @@ dotenv.config();
 
   //sockets
   io.on("connection", (socket: Socket) => {
+    console.log("connected");
+
     socket.on("conn", ({ user }: { user: any }) => {
+      console.log("connected a new user with socket id " + socket.id);
+
       addUser(socket.id, user);
     });
 
