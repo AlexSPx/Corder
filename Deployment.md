@@ -76,7 +76,7 @@ This will install the latest stable 14.x node version
 
 #### 3. Setup ufw firewall, install NGINX and Certbot
 
-1.  **ufw firewall**
+1. **ufw firewall**
 
    ```
    sudo ufw enable
@@ -212,10 +212,10 @@ This will install the latest stable 14.x node version
    Restart NGINX
 
    ```
-sudo service nginx restart
+   sudo service nginx restart
    ```
-   
-1. **Install packages and upload the files**
+
+7. **Install packages and upload the files**
 
    - Installing packages:
 
@@ -243,9 +243,9 @@ sudo service nginx restart
      ```
      npm install
      ```
-   
+
       To run the React app we need only the `serve` package:
-   
+
      ```
      npm i -g serve
      ```
