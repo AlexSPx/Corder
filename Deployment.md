@@ -243,9 +243,9 @@ sudo service nginx restart
      ```
      npm install
      ```
-     
+   
       To run the React app we need only the `serve` package:
-     
+   
      ```
      npm i -g serve
      ```
@@ -280,7 +280,7 @@ sudo service nginx restart
   pm2 start server
   ```
 
--    Start client with pm2:
+- Start client with pm2:
 
   ```
   pm2 start serve -- -s client
