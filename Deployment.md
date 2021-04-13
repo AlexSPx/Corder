@@ -30,19 +30,19 @@ It will take a few seconds for the server to setup.
 
 1. Creating DNS records
 
-![adding domain](D:\Archive\Corder\Deployment images\Addings domain.png)
+![adding domain](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/Addings%20domain.png)
 
 2. Setting @ and www A record
 
-![](D:\Archive\Corder\Deployment images\@ record.png)
+![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/%40%20record.png)
 
-![](D:\Archive\Corder\Deployment images\www record.png)
+![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/www%20record.png)
 
 3. Setting up custom DNS.
 
-<img src="D:\Archive\Corder\Deployment images\Custom DNS.png"  /> *namecheap console*
+![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/Custom%20DNS.png) *namecheap console*
 
-		- `ns1.digitalocean.com.`
+- `ns1.digitalocean.com.`
 
 - `ns2.digitalocean.com.`
 
@@ -104,11 +104,11 @@ This will install the latest stable 14.x node version
      sudo certbot --nginx
      ```
 
-     ![](D:\Archive\Corder\Deployment images\certbot setup.png)
+     ![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/certbot%20setup.png)
 
      <div style="text-align:center">Now when we go to our domain (`corder-bg.xyz`) we can see the welcoming nginx page</div>
 
-     <img src="D:\Archive\Corder\Deployment images\welcome to nginx.png"  />
+     ![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/welcome%20to%20nginx.png)
 
 4. **Install pm2**
 
@@ -221,7 +221,7 @@ sudo service nginx restart
 
      Navigate to your main folder on your local machine. My folder structure:
 
-     ![](D:\Archive\Corder\Deployment images\file structure.png)
+     ![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/file%20structure.png)
 
      First we need to install the packages for the node server. The easiest way is to transfer the `server/package.json` to the ubuntu server and run `npm install`
 
@@ -236,17 +236,16 @@ sudo service nginx restart
      ```
 
      If everything works by typing `ls` you should see it:
-     ![](D:\Archive\Corder\Deployment images\pjson.png)
+     ![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/pjson.png)
 
      Now simply run:
 
      ```
      npm install
      ```
-
-
-     To run the React app we need only the `serve` package:
-    
+     
+      To run the React app we need only the `serve` package:
+     
      ```
      npm i -g serve
      ```
@@ -271,7 +270,7 @@ sudo service nginx restart
      scp -i ~/corderkey -r newclient/build root@178.62.69.88:client
      ```
 
-     ![](D:\Archive\Corder\Deployment images\client_server_show.png)
+     ![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/client_server_show.png)
 
    Now let's check if everything is running correctly:
 
@@ -287,6 +286,4 @@ sudo service nginx restart
   pm2 start serve -- -s client
   ```
 
-  
-
-![](D:\Archive\Corder\Deployment images\servercheck.png)
+  ![](https://raw.githubusercontent.com/AlexSPx/Corder/main/Deployment%20images/finish.png)
