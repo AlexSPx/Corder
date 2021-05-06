@@ -79,3 +79,79 @@ export const CogIcon = ({ css }: { css: string }) => {
     </svg>
   );
 };
+
+export const UpArrow = ({ css }: { css?: string }) => {
+  return (
+    <svg
+      className={`w-6 h-6 ${css}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1}
+        d="M5 15l7-7 7 7"
+      />
+    </svg>
+  );
+};
+
+export const DownArrow = ({ css }: { css?: string }) => {
+  return (
+    <svg
+      className={`w-6 h-6 ${css}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  );
+};
+
+export const FileAddIcon = ({ css }: { css?: string }) => {
+  return (
+    <svg
+      className={`w-6 h-6 ${css}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1}
+        d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+      />
+    </svg>
+  );
+};
+
+export const SendMessage = ({ css }: { css?: string }) => {
+  return (
+    <svg
+      className={`w-6 h-6 ${css}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1}
+        d="M13 5l7 7-7 7M5 5l7 7-7 7"
+      />
+    </svg>
+  );
+};

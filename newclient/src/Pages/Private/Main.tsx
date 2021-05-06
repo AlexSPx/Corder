@@ -52,7 +52,7 @@ export default function Main() {
         <div className="flex flex-col w-2/3">
           <div className="flex flex-row my-8">
             <img
-              src={userCtx?.userData.avatar}
+              src={URL.createObjectURL(userCtx?.userData.avatar)}
               alt="avatar"
               className={`flex h-14 w-14 bg-cover rounded-full border ${theme.profile}`}
             />
@@ -70,7 +70,7 @@ export default function Main() {
             Create new Team
           </button>
           <button
-            className={`flex border rounded-xl py-1 px-6 hover:${theme.background.darker} ${theme.profile} py-2 px-10 rounded-lg my-1 justify-center`}
+            className={`flex border rounded-xl py-1 px-6 hover:${theme.background.light} ${theme.profile} py-2 px-10 rounded-lg my-1 justify-center`}
           >
             Join a Team
           </button>

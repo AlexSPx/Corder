@@ -7,6 +7,8 @@ const Teams = React.lazy(() => import("./Teams"));
 const TeamProjects = React.lazy(() => import("./TeamProjects"));
 const CreateTeam = React.lazy(() => import("./CreateTeam"));
 const Project = React.lazy(() => import("./Project"));
+const Assignment = React.lazy(() => import("./Assignment"));
+const TeamChats = React.lazy(() => import("./ChatRooms/TeamChats"));
 const NotFound = React.lazy(() => import("../NotFound"));
 
 export default function RoutesPrivate() {
@@ -19,8 +21,18 @@ export default function RoutesPrivate() {
             <Route exact path="/" component={Main} />
             <Route exact path="/teams" component={Teams} />
             <Route exact path="/teams/create" component={CreateTeam} />
-            <Route path="/:name/projects" component={TeamProjects} />
-            <Route path="/:name/project/:projectname" component={Project} />
+            <Route exact path="/:name/projects" component={TeamProjects} />
+            <Route
+              exact
+              path="/:name/project/:projectname"
+              component={Project}
+            />
+            <Route
+              exact
+              path="/:name/project/:projectname/:assignment"
+              component={Assignment}
+            />
+            <Route path="/:name/chats/:id?" component={TeamChats} />
             <Route component={NotFound} />
           </Switch>
         </div>

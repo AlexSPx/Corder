@@ -3,6 +3,7 @@ import {
   createProject,
   fetchProject,
   fetchProjectByMember,
+  fetchProjectByName,
   fetchProjectMembers,
   fetchTeamProjects,
 } from "../functions/projectFunc";
@@ -57,6 +58,19 @@ router.post("/fetchprojectsbymembers", isAuth, async (req, res) => {
 
   if (status) {
     res.status(200).json(projects);
+  } else {
+    res.status(401).json(errors);
+  }
+});
+
+router.get("/fetchproject/:team/:name", isAuth, async (req, res) => {
+  const { status, project, errors } = await fetchProjectByName(
+    req.params.team,
+    req.params.name
+  );
+
+  if (status) {
+    res.status(200).json(project);
   } else {
     res.status(401).json(errors);
   }

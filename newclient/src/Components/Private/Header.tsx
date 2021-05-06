@@ -60,7 +60,7 @@ export default function Header() {
       <div className="relative">
         <img
           className={`flex h-16 w-16 rounded-full border-2 cursor-pointer ${theme.profile}`}
-          src={userCtx?.userData.avatar}
+          src={URL.createObjectURL(userCtx?.userData.avatar)}
           alt="Avatar"
           onClick={handleMenu}
         />

@@ -91,9 +91,13 @@ router.post("/fetchfiles", isAuth, async (req, res) => {
   try {
     const filesRepository = getRepository(Files);
 
-    const files = await filesRepository.find({
-      where: { id: In(req.body.ids) },
-    });
+    const files = await filesRepository
+      .find({
+        where: { id: In(req.body.ids) },
+      })
+      .catch((err) => {
+        res.status(200).json(false);
+      });
 
     res.status(200).send(files);
   } catch (err) {

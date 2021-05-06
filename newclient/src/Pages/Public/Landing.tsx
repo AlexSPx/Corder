@@ -19,7 +19,7 @@ export default function Landing() {
             Secure and Reliable <br /> Option for Your Team
           </p>
           <p className={`text-lg font-bold my-1 ${theme.text.secondary}`}>
-            We help from small to large start-ups track their progress. Our team
+            We help small to large start-ups track their progress. Our team
             of unique specialist can help you achieve your goals
           </p>
           <div

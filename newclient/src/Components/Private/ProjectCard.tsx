@@ -23,8 +23,8 @@ export default function ProjectCard({
   const dateCheck =
     project.range === null
       ? true
-      : parseInt(project.range[0]) < Date.now()
-      ? parseInt(project.range[1]) > Date.now()
+      : Date.parse(project.range[0]) < Date.now()
+      ? Date.parse(project.range[1]) > Date.now()
         ? true
         : false
       : false;
@@ -80,7 +80,7 @@ export default function ProjectCard({
     </div>
   );
 }
-const DateActive = () => {
+export const DateActive = () => {
   return (
     <div className="flex h-5 w-5 mt-1 rounded-full bg-green-100 items-center justify-center">
       <div className="h-3 w-3 bg-green-400 rounded-full"></div>
@@ -88,7 +88,7 @@ const DateActive = () => {
   );
 };
 
-const DateInactive = () => {
+export const DateInactive = () => {
   return (
     <div className="flex h-5 w-5 mt-1 rounded-full bg-red-100 items-center justify-center">
       <div className="h-3 w-3 bg-red-400 rounded-full"></div>

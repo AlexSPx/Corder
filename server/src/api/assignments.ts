@@ -1,7 +1,10 @@
 import { Router } from "express";
 import {
   createAssignment,
+  createForeachAssignment,
+  fetchAssignmentByName,
   fetchAssignments,
+  fetchAssignmentsAdmin,
   fetchOneAssignment,
   fetchUserAssignments,
 } from "../functions/assignmentFunc";
@@ -19,11 +22,33 @@ router.post("/create", isAuth, async (req, res) => {
   }
 });
 
-router.get("/fetchassignments/:id", isAuth, async (req, res) => {
-  const { status, assignments, errors } = await fetchAssignments(req.params.id);
+router.post("/createforeach", isAuth, async (req, res) => {
+  const status = await createForeachAssignment(req.body);
+
+  if (status) {
+    res.status(200).send(true);
+  } else {
+    res.status(401).send(false);
+  }
+});
+
+router.post("/fetchassignments", isAuth, async (req, res) => {
+  const { status, assignments, errors } = await fetchAssignments(req.body);
 
   if (status) {
     res.status(200).json(assignments);
+  } else {
+    res.json(401).json(errors);
+  }
+});
+
+router.get("/changestatus", isAuth, async (req, res) => {});
+
+router.get("/fetchassignments/admin/:id", isAuth, async (req, res) => {
+  const { status, data, errors } = await fetchAssignmentsAdmin(req.params.id);
+
+  if (status) {
+    res.status(200).json(data);
   } else {
     res.json(401).json(errors);
   }
@@ -52,5 +77,22 @@ router.get("/fetchuser", isAuth, async (req, res) => {
     res.status(401).send(errors);
   }
 });
+
+router.get(
+  "/fetchassignment/:team/:assignmentname",
+  isAuth,
+  async (req, res) => {
+    const { status, assignment, errors } = await fetchAssignmentByName(
+      req.params.team,
+      req.params.assignmentname
+    );
+
+    if (status) {
+      res.status(200).json(assignment);
+    } else {
+      res.status(401).json(errors);
+    }
+  }
+);
 
 export default router;

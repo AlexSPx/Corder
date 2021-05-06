@@ -8,6 +8,8 @@ export default function UserCard({
   user: OnlineUserInterface;
   theme: ThemeInterface;
 }) {
+  console.log(user.name);
+
   return (
     <div
       className={`flex w-full h-12 md:h-24 rounded-full border ${theme.profile} items-center my-1`}

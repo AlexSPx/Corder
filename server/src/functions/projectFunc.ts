@@ -2,6 +2,7 @@ import { Projects } from "../entities/ProjectEntity";
 import { getRepository, In } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../entities/userEntity";
+import { Team } from "../entities/teamEntity";
 
 export const createProject = async (data: any): Promise<any> => {
   try {
@@ -14,7 +15,7 @@ export const createProject = async (data: any): Promise<any> => {
       name,
       desc,
       teamID: [teamid],
-      status: true,
+      status: false,
       range: [dates],
       members: [members],
       admins: [admins],
@@ -28,6 +29,8 @@ export const createProject = async (data: any): Promise<any> => {
 
     return { status: true, project: newProject };
   } catch (err) {
+    console.log(err);
+
     return { status: false, errors: err };
   }
 };
@@ -89,6 +92,28 @@ export const fetchProjectByMember = async (data: any) => {
       .getMany();
 
     return { status: true, projects };
+  } catch (err) {
+    return { status: false, errors: err };
+  }
+};
+
+export const fetchProjectByName = async (team: string, name: string) => {
+  try {
+    const projectRepository = getRepository(Projects);
+    const teamRepository = getRepository(Team);
+
+    const teamid = await teamRepository.findOne({
+      where: { name: team },
+      select: ["id"],
+    });
+
+    const project = await projectRepository
+      .createQueryBuilder()
+      .where("Projects.teamID @> ARRAY[:teamID]", { teamID: teamid!.id })
+      .andWhere("Projects.name = :name", { name })
+      .getOne();
+
+    return { status: true, project };
   } catch (err) {
     return { status: false, errors: err };
   }

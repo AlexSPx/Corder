@@ -20,9 +20,6 @@ export class Projects {
   @Column("text", { array: true })
   admins: string[];
 
-  @Column("text", { array: true, nullable: true })
-  assignments: string[];
-
   @Column({ nullable: false, default: true })
   status: boolean;
 

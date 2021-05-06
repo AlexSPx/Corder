@@ -35,7 +35,7 @@ const Distributor = () => {
         responseType: "blob",
       });
 
-      const avatar = URL.createObjectURL(avatarRes.data);
+      const avatar = avatarRes.data;
 
       const userData = { ...userRes.data, avatar };
 

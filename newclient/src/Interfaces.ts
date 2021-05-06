@@ -50,6 +50,13 @@ export interface OnlineUserInterface {
   avatar: any;
 }
 
+export interface SingleUser {
+  id: string;
+  name: string;
+  username: string;
+  avatar: BufferM;
+}
+
 export interface SignupInterface {
   username: String;
   name: String;
@@ -97,4 +104,46 @@ export interface InviteInterface {
   teamID: string;
   userID: string;
   status: boolean;
+}
+
+export interface AssignemntInterface {
+  id: string;
+  teamID: string[];
+  projectID: string;
+  name: string;
+  status: boolean;
+  range: string[] | null;
+  members: string[];
+  admins: string[];
+  files: string[] | null;
+  description: string;
+}
+
+export interface AssignmentsCollectorInterface {
+  id: string;
+  teamID: string[];
+  projectID: string;
+  name: string;
+  description: string;
+  status: boolean;
+  range: string[];
+  admins: string[];
+  assignments: string[];
+}
+
+export interface FileInterface {
+  id: string;
+  name: string;
+  teamID: string;
+  file: string;
+  type: "html" | "document" | "link" | "docx";
+}
+
+export interface ChatRoom {
+  id: string;
+  name: string;
+  teamID: string[];
+  members: string[];
+  admins: string[];
+  image: BufferM;
 }

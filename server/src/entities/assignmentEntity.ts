@@ -31,4 +31,7 @@ export class Assignment {
 
   @Column("text", { nullable: false })
   description: string;
+
+  @Column("text", { nullable: true })
+  type: "group" | "foreach";
 }

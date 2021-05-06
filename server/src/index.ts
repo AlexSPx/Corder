@@ -4,6 +4,7 @@ import teams from "./api/teams";
 import projects from "./api/projects";
 import files from "./api/files";
 import assignment from "./api/assignments";
+import chats from "./api/chats";
 
 import { User } from "./entities/userEntity";
 import { Team } from "./entities/teamEntity";
@@ -12,6 +13,7 @@ import { Projects } from "./entities/ProjectEntity";
 import { Files } from "./entities/fileEntity";
 import { Activation } from "./entities/activationEntity";
 import { Assignment } from "./entities/assignmentEntity";
+import { AssignmentsCollector } from "./entities/assignmentsCollectorEntity";
 
 import { createConnection } from "typeorm";
 import cors from "cors";
@@ -21,7 +23,9 @@ import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import { addUser, removeUser } from "./online";
-import { env } from "process";
+import { Message } from "./entities/messageEntity";
+import { Chatroom } from "./entities/chatroomEntity";
+import { addMessage, IncomingMessageInterface } from "./functions/messagesFunc";
 
 dotenv.config();
 
@@ -33,9 +37,20 @@ dotenv.config();
     port: 5432,
     username: "postgres",
     password: process.env.DATABASE_PASSWORD,
-    database: "cms-ntit",
+    database: "corder",
     synchronize: true,
-    entities: [User, Team, Invites, Projects, Activation, Files, Assignment],
+    entities: [
+      User,
+      Team,
+      Invites,
+      Projects,
+      Activation,
+      Files,
+      Assignment,
+      AssignmentsCollector,
+      Message,
+      Chatroom,
+    ],
   })
     .then(() => console.log("Connected to the DB"))
     .catch((err) => {
@@ -46,7 +61,7 @@ dotenv.config();
   const app = require("express")();
   const http = createServer(app);
   const io = new Server(http, {
-    cors: {},
+    cors: { origin: "*" },
   });
   const port: Number = 5001;
 
@@ -56,6 +71,7 @@ dotenv.config();
         "http://localhost:5000",
         "http://localhost:3000",
         "http://localhost:3006",
+        "https://docs.corder-bg.xyz/",
       ],
       credentials: true,
     })
@@ -66,16 +82,25 @@ dotenv.config();
 
   //sockets
   io.on("connection", (socket: Socket) => {
-    console.log("connected");
-
     socket.on("conn", ({ user }: { user: any }) => {
-      console.log("connected a new user with socket id " + socket.id);
-
       addUser(socket.id, user);
     });
 
     socket.on("new-operations", (data: any) => {
       io.emit(`new-remote-operations-${data.docid}`, data);
+    });
+
+    socket.on("send-message", (data: IncomingMessageInterface) => {
+      const { id } = addMessage(data);
+
+      const messageres = {
+        id,
+        message: data.message,
+        roomid: data.roomid,
+        userid: data.userid,
+      };
+
+      io.emit(`remote-message-${data.roomid}`, messageres);
     });
 
     socket.on("disconnect", () => {
@@ -90,6 +115,7 @@ dotenv.config();
   app.use("/api/projects", projects);
   app.use("/api/files", files);
   app.use("/api/assignment", assignment);
+  app.use("/api/chat", chats);
 
   http.listen(port || 5001, () => console.log(`running on port ${port}`));
 })();

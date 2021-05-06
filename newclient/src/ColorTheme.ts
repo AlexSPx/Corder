@@ -2,8 +2,8 @@ import { ThemeInterface } from "./Interfaces";
 
 export const Light = {
   background: {
-    light: "bg-gray-50",
-    darker: "bg-gray-100",
+    light: "bg-gray-100",
+    darker: "bg-gray-200",
     main: "bg-white",
     body: "bg-gray-50",
     contrast: "bg-indigo-600",
