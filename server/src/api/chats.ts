@@ -50,12 +50,16 @@ router.post(
   }
 );
 
-router.get("/messages/initial/:id", isAuth, async (req, res) => {
+router.get("/messages/fetch/:id/:off", isAuth, async (req, res) => {
   try {
-    const { status, messages, errors } = await getLatestMessages(req.params.id);
+    const { status, messages, count, errors } = await getLatestMessages({
+      roomid: req.params.id,
+      off: parseInt(req.params.off),
+    });
 
     if (status) {
-      res.status(200).send(messages);
+      if (count) res.status(200).json({ count, messages });
+      else res.status(200).json(messages);
     } else {
       res.status(401).json(errors);
     }

@@ -42,15 +42,43 @@ const pushUpdates = async () => {
 
 setInterval(() => pushUpdates(), 5000);
 
-export const getLatestMessages = async (roomid: string) => {
+export const getLatestMessages = async ({
+  roomid,
+  off,
+}: {
+  roomid: string;
+  off: number;
+}) => {
   try {
     const messageRepository = getRepository(Message);
+
+    console.log(off);
+
+    if (off === 0) {
+      const messages = await messageRepository
+        .createQueryBuilder()
+        .select()
+        .where("Message.roomid = :roomid", { roomid })
+        .orderBy("Message.sentat", `DESC`)
+        .limit(20)
+        .getMany();
+
+      const count = await messageRepository
+        .createQueryBuilder()
+        .where("Message.roomid = :roomid", { roomid })
+        .getCount();
+
+      messages.reverse();
+
+      return { status: true, messages, count };
+    }
 
     const messages = await messageRepository
       .createQueryBuilder()
       .select()
       .where("Message.roomid = :roomid", { roomid })
       .orderBy("Message.sentat", `DESC`)
+      .offset(off)
       .limit(20)
       .getMany();
 

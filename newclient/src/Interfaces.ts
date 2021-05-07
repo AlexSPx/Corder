@@ -147,3 +147,10 @@ export interface ChatRoom {
   admins: string[];
   image: BufferM;
 }
+
+export interface MessageInterface {
+  id?: string;
+  message: string;
+  roomid: string;
+  userid: string;
+}

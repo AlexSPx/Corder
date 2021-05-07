@@ -3,11 +3,18 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { socket } from "../..";
 import { UserContext } from "../../Context/UserContext";
 import { b64toBlob } from "../../functions";
-import { ChatRoom, SingleUser, ThemeInterface } from "../../Interfaces";
+import {
+  ChatRoom,
+  MessageInterface,
+  SingleUser,
+  ThemeInterface,
+} from "../../Interfaces";
 import { defaultpfp } from "../../public/pfpdef";
 import { DownArrow, SendMessage, UpArrow } from "../../public/SmallSvgs";
 import { baseurl } from "../../routes";
 import { LoadingFlexCenter } from "../Public/Loading";
+import useMessageQuery from "./useMessageQuery";
+import Message from "./Message";
 
 export default function ChatRoomD({
   room,
@@ -132,13 +139,6 @@ const ShowMembers = ({
   );
 };
 
-interface MessageInterface {
-  id?: string;
-  message: string;
-  roomid: string;
-  userid: string;
-}
-
 const Main = ({
   theme,
   room,
@@ -148,13 +148,20 @@ const Main = ({
   room: ChatRoom;
   members: SingleUser[];
 }) => {
-  const userCtx = useContext(UserContext);
-
-  const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [sendMessage, setSendMessage] = useState<string>();
-  const [loadingMessages, setLoadingMessages] = useState(true);
+  const [messageCount, setMessageCount] = useState(0);
 
-  const setRef = useCallback((node) => {
+  const userCtx = useContext(UserContext);
+  const {
+    messages,
+    loading,
+    setRefFirstMessage,
+    maxCount,
+    empty,
+    scroll,
+  } = useMessageQuery(room, messageCount, setMessageCount);
+
+  const setRefLastMessage = useCallback((node) => {
     if (node) {
       node.scrollIntoView({ smooth: true });
     }
@@ -174,74 +181,34 @@ const Main = ({
     }
   };
 
-  useEffect(() => {
-    const eventName = `remote-message-${room.id}`;
+  console.log(scroll);
 
-    socket.on(eventName, (message: MessageInterface) => {
-      setMessages((old: any) => [...old, message]);
-    });
+  const lastMessageCalc = scroll
+    ? messages.length - 1
+    : maxCount! - messages.length;
 
-    const fetchMessages = async () => {
-      const msgRes = await axios.get(
-        `${baseurl}/chat/messages/initial/${room.id}`,
-        { withCredentials: true }
-      );
-      setMessages(msgRes.data);
-      setLoadingMessages(false);
-    };
-
-    fetchMessages();
-    setMessages([]);
-
-    return () => {
-      socket.off(eventName);
-    };
-  }, [room]);
-
-  const mapMessages = messages.map((msg, index) => {
-    const mmbr: SingleUser = members.filter(
-      (mmbr) => mmbr.id === msg.userid
-    )[0];
-    const lastMessage = messages.length - 1 === index;
-
-    if (msg.userid === userCtx?.userData.id) {
-      return (
-        <div
-          ref={lastMessage ? setRef : null}
-          className="flex flex-row items-center justify-end my-2 mx-3"
-          key={msg.id}
-        >
-          <p className={`p-2 mx-2 rounded-full ${theme.background.darker}`}>
-            {msg.message}
-          </p>
-        </div>
-      );
-    } else {
-      return (
-        <div
-          ref={lastMessage ? setRef : null}
-          className="flex flex-row items-center my-2 mx-3"
-          key={msg.id}
-        >
-          <img
-            src={URL.createObjectURL(
-              new Blob([new Uint8Array(mmbr.avatar.data)])
-            )}
-            alt={room.name}
-            className={`flex h-12 w-12 rounded-full border cursor-pointer ${theme.profile}`}
-          />
-          <p className={`p-2 mx-2 rounded-full ${theme.background.darker}`}>
-            {msg.message}
-          </p>
-        </div>
-      );
-    }
+  const mapMessages = messages?.map((msg, index) => {
+    return (
+      <Message
+        members={members}
+        lastMessageCalc={lastMessageCalc}
+        msg={msg}
+        index={index}
+        userid={userCtx?.userData.id!}
+        theme={theme}
+        room={room}
+        setLastMessageRef={setRefLastMessage}
+        setFirstMessageRef={setRefFirstMessage}
+      />
+    );
   });
 
   return (
     <div className={`flex flex-col w-full h-full justify-between`}>
-      {loadingMessages ? (
+      {loading ? (
         <LoadingFlexCenter />
+      ) : empty ? (
+        <NoMessages />
       ) : (
         <div className="flex flex-col max-h-(screen-16) w-full overflow-auto">
           {mapMessages}
@@ -270,6 +237,14 @@ const Main = ({
           <SendMessage />
         </div>
       </div>
+    </div>
+  );
+};
+
+const NoMessages = () => {
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <p>No Messages</p>
     </div>
   );
 };
