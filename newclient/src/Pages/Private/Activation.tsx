@@ -53,12 +53,19 @@ export default function Activation() {
     }
   };
 
+  const handleSignOut = async () => {
+    // eslint-disable-next-line no-restricted-globals
+    event?.preventDefault();
+    axios.get(`${baseurl}/authuser/signout`, { withCredentials: true });
+    window.location.reload();
+  };
+
   return (
     <div
       className={`flex flex-col h-screen ${theme.background.main} ${theme.text.main} items-center justify-center`}
     >
       <img
-        src={userCtx?.userData.avatar}
+        src={URL.createObjectURL(userCtx?.userData.avatar)}
         className="flex bg-red-200 w-44 h-44 rounded-full object-cover"
         alt="avatar"
       />
@@ -88,6 +95,12 @@ export default function Activation() {
         onClick={() => resendCode()}
       >
         Resend code
+      </button>
+      <button
+        className={`border ${theme.profile} w-3/6 lg:w-1/6 rounded text-2xl font-thin py-1 my-3 hover:${theme.background.body}`}
+        onClick={() => handleSignOut()}
+      >
+        Log out
       </button>
     </div>
   );

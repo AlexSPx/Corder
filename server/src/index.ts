@@ -25,7 +25,8 @@ import { Server, Socket } from "socket.io";
 import { addUser, removeUser } from "./online";
 import { Message } from "./entities/messageEntity";
 import { Chatroom } from "./entities/chatroomEntity";
-import { addMessage, IncomingMessageInterface } from "./functions/messagesFunc";
+import { addMessage } from "./functions/messagesFunc";
+import { IncomingMessageInterface, onlineUser } from "./interfaces";
 
 dotenv.config();
 
@@ -82,7 +83,7 @@ dotenv.config();
 
   //sockets
   io.on("connection", (socket: Socket) => {
-    socket.on("conn", ({ user }: { user: any }) => {
+    socket.on("conn", ({ user }: { user: onlineUser }) => {
       addUser(socket.id, user);
     });
 
@@ -101,6 +102,13 @@ dotenv.config();
       };
 
       io.emit(`remote-message-${data.roomid}`, messageres);
+    });
+
+    socket.on("start-typing", (data: { userid: string; roomid: string }) => {
+      socket.broadcast.emit(`start-typing-${data.roomid}`, data);
+    });
+    socket.on("stop-typing", (id: string) => {
+      socket.broadcast.emit("stop-typing", id);
     });
 
     socket.on("disconnect", () => {

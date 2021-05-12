@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { socket } from "../..";
-import { ChatRoom, MessageInterface } from "../../Interfaces";
-import { baseurl } from "../../routes";
+import { socket } from "../../..";
+import { ChatRoom, MessageInterface } from "../../../Interfaces";
+import { baseurl } from "../../../routes";
 
 export default function useMessageQuery(
   room: ChatRoom,

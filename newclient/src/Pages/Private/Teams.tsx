@@ -64,7 +64,7 @@ export default function Teams() {
     <div
       className={`flex flex-wrap overflow-scroll h-full justify-center font-thin ${theme.text.main} ${theme.background.body}`}
     >
-      <div className={`w-1/2 `}>
+      <div className={`sm:w-4/5 lg:w-1/2 `}>
         <div className="flex text-2xl items-center h-28">Teams</div>
         <div className="flex flex-col">{mapTeams}</div>
         <div className="flex flex-col">{mapInvites}</div>

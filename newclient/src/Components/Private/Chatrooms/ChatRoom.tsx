@@ -1,20 +1,21 @@
 import axios from "axios";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { socket } from "../..";
-import { UserContext } from "../../Context/UserContext";
-import { b64toBlob } from "../../functions";
+import { socket } from "../../..";
+import { UserContext } from "../../../Context/UserContext";
+import { b64toBlob } from "../../../functions";
 import {
   ChatRoom,
   MessageInterface,
   SingleUser,
   ThemeInterface,
-} from "../../Interfaces";
-import { defaultpfp } from "../../public/pfpdef";
-import { DownArrow, SendMessage, UpArrow } from "../../public/SmallSvgs";
-import { baseurl } from "../../routes";
-import { LoadingFlexCenter } from "../Public/Loading";
+} from "../../../Interfaces";
+import { defaultpfp } from "../../../public/pfpdef";
+import { DownArrow, SendMessage, UpArrow } from "../../../public/SmallSvgs";
+import { baseurl } from "../../../routes";
+import { LoadingFlexCenter } from "../../Public/Loading";
 import useMessageQuery from "./useMessageQuery";
 import Message from "./Message";
+import { ChangeIcon, ShowMembers } from "./Options";
 
 export default function ChatRoomD({
   room,
@@ -73,6 +74,7 @@ export default function ChatRoomD({
               theme={theme}
             />
           )}
+          <ChangeIcon theme={theme} room={room} />
         </div>
       </div>
     </div>
@@ -92,49 +94,11 @@ const DropDown = ({
 }) => {
   return (
     <div
-      className={`flex mt-4 my-2 py-1 rounded-md hover:${theme.background.darker} w-5/6 justify-between items-center cursor-pointer`}
+      className={`flex mt-4 my-1 py-1 rounded-md hover:${theme.background.darker} w-5/6 justify-between items-center cursor-pointer`}
       onClick={() => setState(!state)}
     >
       <p className="text-lg ml-1">{label}</p>
       {state ? <UpArrow css="mr-1" /> : <DownArrow css="mr-1" />}
-    </div>
-  );
-};
-
-const ShowMembers = ({
-  mmbrs,
-  admins,
-  theme,
-}: {
-  mmbrs: SingleUser[];
-  admins: string[];
-  theme: ThemeInterface;
-}) => {
-  const mapMembers = mmbrs?.map((user) => {
-    return (
-      <div className="flex flex-row my-1">
-        <img
-          src={URL.createObjectURL(
-            new Blob([new Uint8Array(user.avatar.data)])
-          )}
-          alt={user.name}
-          className={`flex h-14 w-14 rounded-full border cursor-pointer ${theme.profile}`}
-        />
-        <div className="flex flex-col justify-center mx-3">
-          <p>{user.name}</p>
-          {admins.includes(user.id) && (
-            <p className={`text-sm ${theme.text.secondary}`}>Administrator</p>
-          )}
-        </div>
-      </div>
-    );
-  });
-
-  return (
-    <div
-      className={`flex flex-col justify-start w-5/6 pb-1 border-b ${theme.border}`}
-    >
-      {mapMembers}
     </div>
   );
 };
@@ -152,14 +116,8 @@ const Main = ({
   const [messageCount, setMessageCount] = useState(0);
 
   const userCtx = useContext(UserContext);
-  const {
-    messages,
-    loading,
-    setRefFirstMessage,
-    maxCount,
-    empty,
-    scroll,
-  } = useMessageQuery(room, messageCount, setMessageCount);
+  const { messages, loading, setRefFirstMessage, maxCount, empty, scroll } =
+    useMessageQuery(room, messageCount, setMessageCount);
 
   const setRefLastMessage = useCallback((node) => {
     if (node) {
@@ -180,8 +138,6 @@ const Main = ({
       setSendMessage("");
     }
   };
-
-  console.log(scroll);
 
   const lastMessageCalc = scroll
     ? messages.length - 1
@@ -204,37 +160,40 @@ const Main = ({
   });
 
   return (
-    <div className={`flex flex-col w-full h-full justify-between`}>
+    <div className={`flex flex-col w-full h-full`}>
       {loading ? (
-        <LoadingFlexCenter />
+        <LoadingFlexCenter css={"h-32 w-32"} />
       ) : empty ? (
         <NoMessages />
       ) : (
-        <div className="flex flex-col max-h-(screen-16) w-full overflow-auto">
+        <div
+          className="flex flex-col max-h-(screen-16) w-full overflow-auto"
+          id="journal-scroll"
+        >
           {mapMessages}
         </div>
       )}
 
-      <div
-        className={`flex w-full h-16 items-center justify-center border-t ${theme.border}`}
-      >
-        <input
-          type="text"
-          placeholder="type a message..."
-          id="msgsender"
-          className={`w-4/6 h-10 text-lg rounded-full focus:outline-none px-6 ${theme.background.darker}`}
-          value={sendMessage}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-            setSendMessage(e.target.value)
-          }
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              emmitMessage();
-            }
-          }}
-        />
-        <div className="flex cursor-pointer" onClick={() => emmitMessage()}>
-          <SendMessage />
+      <div className={`flex flex-col w-full h-14`}>
+        <div className="flex w-full items-center justify-center">
+          <input
+            type="text"
+            placeholder="type a message..."
+            id="msgsender"
+            className={`w-4/6 h-10 text-lg rounded-full focus:outline-none px-6 ${theme.background.darker}`}
+            value={sendMessage}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+              setSendMessage(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                emmitMessage();
+              }
+            }}
+          />
+          <div className="flex cursor-pointer" onClick={() => emmitMessage()}>
+            <SendMessage />
+          </div>
         </div>
       </div>
     </div>

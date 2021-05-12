@@ -1,0 +1,58 @@
+"filename", "language", "TypeScript", "TypeScript React", "CSS", "comment", "blank", "total"
+"d:\Archive\Corder\newclient\src\App.tsx", "TypeScript React", 0, 74, 0, 1, 11, 86
+"d:\Archive\Corder\newclient\src\ColorTheme.ts", "TypeScript", 33, 0, 0, 0, 3, 36
+"d:\Archive\Corder\newclient\src\Components\Private\AssignementCard.tsx", "TypeScript React", 0, 70, 0, 0, 5, 75
+"d:\Archive\Corder\newclient\src\Components\Private\AssignmentCollectorCard.tsx", "TypeScript React", 0, 65, 0, 0, 5, 70
+"d:\Archive\Corder\newclient\src\Components\Private\AssignmentForm.tsx", "TypeScript React", 0, 82, 0, 0, 4, 86
+"d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\ChatCard.tsx", "TypeScript React", 0, 61, 0, 1, 7, 69
+"d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\ChatRoom.tsx", "TypeScript React", 0, 194, 0, 2, 14, 210
+"d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\Header.tsx", "TypeScript React", 0, 130, 0, 0, 13, 143
+"d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\Message.tsx", "TypeScript React", 0, 72, 0, 0, 4, 76
+"d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\Options.tsx", "TypeScript React", 0, 68, 0, 0, 11, 79
+"d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\useMessageQuery.tsx", "TypeScript React", 0, 78, 0, 0, 12, 90
+"d:\Archive\Corder\newclient\src\Components\Private\DropdownSelector.tsx", "TypeScript React", 0, 44, 0, 0, 5, 49
+"d:\Archive\Corder\newclient\src\Components\Private\FileAdder.tsx", "TypeScript React", 0, 294, 0, 0, 18, 312
+"d:\Archive\Corder\newclient\src\Components\Private\FileCard.tsx", "TypeScript React", 0, 108, 0, 0, 7, 115
+"d:\Archive\Corder\newclient\src\Components\Private\Header.tsx", "TypeScript React", 0, 99, 0, 1, 9, 109
+"d:\Archive\Corder\newclient\src\Components\Private\ImageCrop.tsx", "TypeScript React", 0, 15, 0, 8, 4, 27
+"d:\Archive\Corder\newclient\src\Components\Private\InviteCard.tsx", "TypeScript React", 0, 122, 0, 1, 12, 135
+"d:\Archive\Corder\newclient\src\Components\Private\ProjectCard.tsx", "TypeScript React", 0, 102, 0, 2, 10, 114
+"d:\Archive\Corder\newclient\src\Components\Private\Search.tsx", "TypeScript React", 0, 8, 0, 0, 2, 10
+"d:\Archive\Corder\newclient\src\Components\Private\TeamCard.tsx", "TypeScript React", 0, 85, 0, 0, 3, 88
+"d:\Archive\Corder\newclient\src\Components\Private\ToggleButton.tsx", "TypeScript React", 0, 21, 0, 0, 4, 25
+"d:\Archive\Corder\newclient\src\Components\Private\UserCard.tsx", "TypeScript React", 0, 63, 0, 0, 5, 68
+"d:\Archive\Corder\newclient\src\Components\Private\UserSelector.tsx", "TypeScript React", 0, 46, 0, 1, 5, 52
+"d:\Archive\Corder\newclient\src\Components\Private\useOnlineQuery.tsx", "TypeScript React", 0, 25, 0, 0, 6, 31
+"d:\Archive\Corder\newclient\src\Components\Public\Button.tsx", "TypeScript React", 0, 19, 0, 0, 3, 22
+"d:\Archive\Corder\newclient\src\Components\Public\Header.tsx", "TypeScript React", 0, 59, 0, 0, 4, 63
+"d:\Archive\Corder\newclient\src\Components\Public\Loading.tsx", "TypeScript React", 0, 17, 0, 0, 3, 20
+"d:\Archive\Corder\newclient\src\Context\ThemeContext.tsx", "TypeScript React", 0, 21, 0, 0, 6, 27
+"d:\Archive\Corder\newclient\src\Context\UserContext.tsx", "TypeScript React", 0, 18, 0, 0, 6, 24
+"d:\Archive\Corder\newclient\src\Interfaces.ts", "TypeScript", 139, 0, 0, 0, 18, 157
+"d:\Archive\Corder\newclient\src\Pages\NotFound.tsx", "TypeScript React", 0, 20, 0, 0, 4, 24
+"d:\Archive\Corder\newclient\src\Pages\Private\Activation.tsx", "TypeScript React", 0, 95, 0, 1, 12, 108
+"d:\Archive\Corder\newclient\src\Pages\Private\Assignment.tsx", "TypeScript React", 0, 126, 0, 1, 15, 142
+"d:\Archive\Corder\newclient\src\Pages\Private\ChatRooms\TeamChats.tsx", "TypeScript React", 0, 237, 0, 0, 19, 256
+"d:\Archive\Corder\newclient\src\Pages\Private\CreateTeam.tsx", "TypeScript React", 0, 197, 0, 0, 18, 215
+"d:\Archive\Corder\newclient\src\Pages\Private\Main.tsx", "TypeScript React", 0, 97, 0, 0, 11, 108
+"d:\Archive\Corder\newclient\src\Pages\Private\Project.tsx", "TypeScript React", 0, 362, 0, 1, 33, 396
+"d:\Archive\Corder\newclient\src\Pages\Private\RoutesPrivate.tsx", "TypeScript React", 0, 40, 0, 0, 3, 43
+"d:\Archive\Corder\newclient\src\Pages\Private\TeamProjects.tsx", "TypeScript React", 0, 295, 0, 9, 23, 327
+"d:\Archive\Corder\newclient\src\Pages\Private\Teams.tsx", "TypeScript React", 0, 65, 0, 0, 10, 75
+"d:\Archive\Corder\newclient\src\Pages\Public\About.tsx", "TypeScript React", 0, 24, 0, 0, 4, 28
+"d:\Archive\Corder\newclient\src\Pages\Public\Landing.tsx", "TypeScript React", 0, 36, 0, 0, 3, 39
+"d:\Archive\Corder\newclient\src\Pages\Public\Login.tsx", "TypeScript React", 0, 85, 0, 1, 9, 95
+"d:\Archive\Corder\newclient\src\Pages\Public\Routes.tsx", "TypeScript React", 0, 26, 0, 0, 3, 29
+"d:\Archive\Corder\newclient\src\Pages\Public\Signup.tsx", "TypeScript React", 0, 167, 0, 1, 12, 180
+"d:\Archive\Corder\newclient\src\functions.ts", "TypeScript", 31, 0, 0, 0, 9, 40
+"d:\Archive\Corder\newclient\src\index.css", "CSS", 0, 0, 36, 5, 5, 46
+"d:\Archive\Corder\newclient\src\index.tsx", "TypeScript React", 0, 16, 0, 3, 4, 23
+"d:\Archive\Corder\newclient\src\public\AboutSvg.tsx", "TypeScript React", 0, 206, 0, 0, 2, 208
+"d:\Archive\Corder\newclient\src\public\LandingSvg.tsx", "TypeScript React", 0, 234, 0, 0, 2, 236
+"d:\Archive\Corder\newclient\src\public\LoginSvg.tsx", "TypeScript React", 0, 111, 0, 0, 2, 113
+"d:\Archive\Corder\newclient\src\public\SmallSvgs.tsx", "TypeScript React", 0, 168, 0, 0, 9, 177
+"d:\Archive\Corder\newclient\src\public\pfpdef.ts", "TypeScript", 1, 0, 0, 0, 1, 2
+"d:\Archive\Corder\newclient\src\public\teamdef.ts", "TypeScript", 1, 0, 0, 0, 1, 2
+"d:\Archive\Corder\newclient\src\react-app-env.d.ts", "TypeScript", 0, 0, 0, 1, 1, 2
+"d:\Archive\Corder\newclient\src\routes.ts", "TypeScript", 4, 0, 0, 1, 2, 7
+"Total", "-", 209, 4667, 36, 41, 436, 5389

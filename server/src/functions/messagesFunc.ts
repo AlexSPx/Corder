@@ -1,14 +1,9 @@
 import { Message } from "../entities/messageEntity";
 import { v4 as uuidv4 } from "uuid";
 import { getRepository } from "typeorm";
+import { IncomingMessageInterface } from "src/interfaces";
 
 let tempMessages: Message[] = [];
-
-export interface IncomingMessageInterface {
-  message: string;
-  roomid: string;
-  userid: string;
-}
 
 export const addMessage = (message: IncomingMessageInterface) => {
   const messageid = uuidv4();
@@ -51,8 +46,6 @@ export const getLatestMessages = async ({
 }) => {
   try {
     const messageRepository = getRepository(Message);
-
-    console.log(off);
 
     if (off === 0) {
       const messages = await messageRepository

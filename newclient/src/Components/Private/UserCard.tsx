@@ -34,18 +34,34 @@ export default function UserCard({
   );
 }
 
-const Online = () => {
+export const Online = ({
+  outer,
+  inner,
+}: {
+  outer?: string;
+  inner?: string;
+}) => {
   return (
-    <div className="flex h-5 w-5 mt-1 ml-1 rounded-full bg-green-100 items-center justify-center">
-      <div className="h-3 w-3 bg-green-400 rounded-full"></div>
+    <div
+      className={`flex h-5 w-5 mt-1 ml-1 rounded-full bg-green-100 items-center justify-center ${outer}`}
+    >
+      <div className={`h-3 w-3 bg-green-400 rounded-full ${inner}`}></div>
     </div>
   );
 };
 
-const Offline = () => {
+export const Offline = ({
+  outer,
+  inner,
+}: {
+  outer?: string;
+  inner?: string;
+}) => {
   return (
-    <div className="flex h-5 w-5 mt-1 rounded-full bg-red-100 items-center justify-center">
-      <div className="h-3 w-3 bg-red-400 rounded-full"></div>
+    <div
+      className={`flex h-5 w-5 mt-1 rounded-full bg-red-100 items-center justify-center ${outer}`}
+    >
+      <div className={`h-3 w-3 bg-red-400 rounded-full ${inner}`}></div>
     </div>
   );
 };

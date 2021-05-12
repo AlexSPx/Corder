@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Light } from "../../../ColorTheme";
-import ChatCard from "../../../Components/Private/ChatCard";
-import ChatRoomD from "../../../Components/Private/ChatRoom";
+import ChatCard from "../../../Components/Private/Chatrooms/ChatCard";
+import ChatRoomD from "../../../Components/Private/Chatrooms/ChatRoom";
+import { TeamHeader } from "../../../Components/Private/Chatrooms/Header";
 import ToggleButton from "../../../Components/Private/ToggleButton";
 import UserSelector from "../../../Components/Private/UserSelector";
 import { ThemeContext } from "../../../Context/ThemeContext";
@@ -34,7 +35,7 @@ export default function TeamChats() {
       setTeam(team.data[0]);
     };
     fetchTeam();
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -50,6 +51,10 @@ export default function TeamChats() {
     }
   }, [team]);
 
+  useEffect(() => {
+    setSelectedRoom(rooms?.find((room) => room.id === id));
+  }, [id, rooms]);
+
   const mapRooms = rooms?.map((room) => {
     return (
       <ChatCard
@@ -57,7 +62,7 @@ export default function TeamChats() {
         room={room}
         theme={theme}
         key={room.id}
-        selectRoom={setSelectedRoom}
+        selectedRoom={selectedRoom}
       />
     );
   });
@@ -74,9 +79,24 @@ export default function TeamChats() {
         />
       )}
       <div
-        className={`flex flex-col w-1/4 justify-between border-r ${theme.border}`}
+        className={`flex flex-col w-1/5 justify-between border-r ${theme.border}`}
       >
-        <div className="flex flex-col">{mapRooms}</div>
+        <div className="flex flex-col">
+          <div className="flex flex-col border-b">
+            {team && <TeamHeader team={team} theme={theme} />}
+          </div>
+          <div className="flex flex-col mt-1 overflow-auto" id="journal-scroll">
+            {!(mapRooms?.length === 0) ? (
+              <div className="flex flex-col max-h-(screen-24)">{mapRooms}</div>
+            ) : (
+              <div
+                className={`flex items-center justify-center h-32 text-lg px-3 text-center italic ${theme.text.secondary}`}
+              >
+                Start by creating a general <br /> chat-room for your team
+              </div>
+            )}
+          </div>
+        </div>
         <div className="flex justify-center">
           <button
             className={`flex ${theme.buttonColor} py-2 px-10 rounded-lg my-4 justify-center w-2/3`}
@@ -86,7 +106,7 @@ export default function TeamChats() {
           </button>
         </div>
       </div>
-      <div className="flex w-3/4">
+      <div className="flex w-5/6">
         {selectedRoom ? (
           <ChatRoomD room={selectedRoom} theme={theme} />
         ) : (

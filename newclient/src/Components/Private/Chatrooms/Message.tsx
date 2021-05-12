@@ -4,7 +4,7 @@ import {
   MessageInterface,
   SingleUser,
   ThemeInterface,
-} from "../../Interfaces";
+} from "../../../Interfaces";
 
 export default function Message({
   members,
@@ -45,7 +45,9 @@ export default function Message({
         className="flex flex-row items-center justify-end my-2 mx-3"
         key={msg.id}
       >
-        <p className={`p-2 mx-2 rounded-full ${theme.background.darker}`}>
+        <p
+          className={`flex p-2 mx-2 justify-center rounded-full ${theme.background.darker}`}
+        >
           {msg.message}
         </p>
       </div>

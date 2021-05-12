@@ -1,0 +1,92 @@
+Date : 2021-05-12 17:39:17
+Directory : d:\Archive\Corder\newclient\src
+Total : 56 files,  4912 codes, 41 comments, 436 blanks, all 5389 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| TypeScript React |         48 |      4,667 |         34 |        396 |      5,097 |
+| TypeScript       |          7 |        209 |          2 |         35 |        246 |
+| CSS              |          1 |         36 |          5 |          5 |         46 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                             | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                |         56 |      4,912 |         41 |        436 |      5,389 |
+| Components                                                                       |         25 |      1,947 |         16 |        175 |      2,138 |
+| Components\Private                                                               |         22 |      1,852 |         16 |        165 |      2,033 |
+| Components\Private\Chatrooms                                                     |          6 |        603 |          3 |         61 |        667 |
+| Components\Public                                                                |          3 |         95 |          0 |         10 |        105 |
+| Context                                                                          |          2 |         39 |          0 |         12 |         51 |
+| Pages                                                                            |         15 |      1,872 |         14 |        179 |      2,065 |
+| Pages\Private                                                                    |          9 |      1,514 |         12 |        144 |      1,670 |
+| Pages\Private\ChatRooms                                                          |          1 |        237 |          0 |         19 |        256 |
+| Pages\Public                                                                     |          5 |        338 |          2 |         31 |        371 |
+| public                                                                           |          6 |        721 |          0 |         17 |        738 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                         | language         | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| d:\Archive\Corder\newclient\src\App.tsx                                          | TypeScript React |         74 |          1 |         11 |         86 |
+| d:\Archive\Corder\newclient\src\ColorTheme.ts                                    | TypeScript       |         33 |          0 |          3 |         36 |
+| d:\Archive\Corder\newclient\src\Components\Private\AssignementCard.tsx           | TypeScript React |         70 |          0 |          5 |         75 |
+| d:\Archive\Corder\newclient\src\Components\Private\AssignmentCollectorCard.tsx   | TypeScript React |         65 |          0 |          5 |         70 |
+| d:\Archive\Corder\newclient\src\Components\Private\AssignmentForm.tsx            | TypeScript React |         82 |          0 |          4 |         86 |
+| d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\ChatCard.tsx        | TypeScript React |         61 |          1 |          7 |         69 |
+| d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\ChatRoom.tsx        | TypeScript React |        194 |          2 |         14 |        210 |
+| d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\Header.tsx          | TypeScript React |        130 |          0 |         13 |        143 |
+| d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\Message.tsx         | TypeScript React |         72 |          0 |          4 |         76 |
+| d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\Options.tsx         | TypeScript React |         68 |          0 |         11 |         79 |
+| d:\Archive\Corder\newclient\src\Components\Private\Chatrooms\useMessageQuery.tsx | TypeScript React |         78 |          0 |         12 |         90 |
+| d:\Archive\Corder\newclient\src\Components\Private\DropdownSelector.tsx          | TypeScript React |         44 |          0 |          5 |         49 |
+| d:\Archive\Corder\newclient\src\Components\Private\FileAdder.tsx                 | TypeScript React |        294 |          0 |         18 |        312 |
+| d:\Archive\Corder\newclient\src\Components\Private\FileCard.tsx                  | TypeScript React |        108 |          0 |          7 |        115 |
+| d:\Archive\Corder\newclient\src\Components\Private\Header.tsx                    | TypeScript React |         99 |          1 |          9 |        109 |
+| d:\Archive\Corder\newclient\src\Components\Private\ImageCrop.tsx                 | TypeScript React |         15 |          8 |          4 |         27 |
+| d:\Archive\Corder\newclient\src\Components\Private\InviteCard.tsx                | TypeScript React |        122 |          1 |         12 |        135 |
+| d:\Archive\Corder\newclient\src\Components\Private\ProjectCard.tsx               | TypeScript React |        102 |          2 |         10 |        114 |
+| d:\Archive\Corder\newclient\src\Components\Private\Search.tsx                    | TypeScript React |          8 |          0 |          2 |         10 |
+| d:\Archive\Corder\newclient\src\Components\Private\TeamCard.tsx                  | TypeScript React |         85 |          0 |          3 |         88 |
+| d:\Archive\Corder\newclient\src\Components\Private\ToggleButton.tsx              | TypeScript React |         21 |          0 |          4 |         25 |
+| d:\Archive\Corder\newclient\src\Components\Private\UserCard.tsx                  | TypeScript React |         63 |          0 |          5 |         68 |
+| d:\Archive\Corder\newclient\src\Components\Private\UserSelector.tsx              | TypeScript React |         46 |          1 |          5 |         52 |
+| d:\Archive\Corder\newclient\src\Components\Private\useOnlineQuery.tsx            | TypeScript React |         25 |          0 |          6 |         31 |
+| d:\Archive\Corder\newclient\src\Components\Public\Button.tsx                     | TypeScript React |         19 |          0 |          3 |         22 |
+| d:\Archive\Corder\newclient\src\Components\Public\Header.tsx                     | TypeScript React |         59 |          0 |          4 |         63 |
+| d:\Archive\Corder\newclient\src\Components\Public\Loading.tsx                    | TypeScript React |         17 |          0 |          3 |         20 |
+| d:\Archive\Corder\newclient\src\Context\ThemeContext.tsx                         | TypeScript React |         21 |          0 |          6 |         27 |
+| d:\Archive\Corder\newclient\src\Context\UserContext.tsx                          | TypeScript React |         18 |          0 |          6 |         24 |
+| d:\Archive\Corder\newclient\src\Interfaces.ts                                    | TypeScript       |        139 |          0 |         18 |        157 |
+| d:\Archive\Corder\newclient\src\Pages\NotFound.tsx                               | TypeScript React |         20 |          0 |          4 |         24 |
+| d:\Archive\Corder\newclient\src\Pages\Private\Activation.tsx                     | TypeScript React |         95 |          1 |         12 |        108 |
+| d:\Archive\Corder\newclient\src\Pages\Private\Assignment.tsx                     | TypeScript React |        126 |          1 |         15 |        142 |
+| d:\Archive\Corder\newclient\src\Pages\Private\ChatRooms\TeamChats.tsx            | TypeScript React |        237 |          0 |         19 |        256 |
+| d:\Archive\Corder\newclient\src\Pages\Private\CreateTeam.tsx                     | TypeScript React |        197 |          0 |         18 |        215 |
+| d:\Archive\Corder\newclient\src\Pages\Private\Main.tsx                           | TypeScript React |         97 |          0 |         11 |        108 |
+| d:\Archive\Corder\newclient\src\Pages\Private\Project.tsx                        | TypeScript React |        362 |          1 |         33 |        396 |
+| d:\Archive\Corder\newclient\src\Pages\Private\RoutesPrivate.tsx                  | TypeScript React |         40 |          0 |          3 |         43 |
+| d:\Archive\Corder\newclient\src\Pages\Private\TeamProjects.tsx                   | TypeScript React |        295 |          9 |         23 |        327 |
+| d:\Archive\Corder\newclient\src\Pages\Private\Teams.tsx                          | TypeScript React |         65 |          0 |         10 |         75 |
+| d:\Archive\Corder\newclient\src\Pages\Public\About.tsx                           | TypeScript React |         24 |          0 |          4 |         28 |
+| d:\Archive\Corder\newclient\src\Pages\Public\Landing.tsx                         | TypeScript React |         36 |          0 |          3 |         39 |
+| d:\Archive\Corder\newclient\src\Pages\Public\Login.tsx                           | TypeScript React |         85 |          1 |          9 |         95 |
+| d:\Archive\Corder\newclient\src\Pages\Public\Routes.tsx                          | TypeScript React |         26 |          0 |          3 |         29 |
+| d:\Archive\Corder\newclient\src\Pages\Public\Signup.tsx                          | TypeScript React |        167 |          1 |         12 |        180 |
+| d:\Archive\Corder\newclient\src\functions.ts                                     | TypeScript       |         31 |          0 |          9 |         40 |
+| d:\Archive\Corder\newclient\src\index.css                                        | CSS              |         36 |          5 |          5 |         46 |
+| d:\Archive\Corder\newclient\src\index.tsx                                        | TypeScript React |         16 |          3 |          4 |         23 |
+| d:\Archive\Corder\newclient\src\public\AboutSvg.tsx                              | TypeScript React |        206 |          0 |          2 |        208 |
+| d:\Archive\Corder\newclient\src\public\LandingSvg.tsx                            | TypeScript React |        234 |          0 |          2 |        236 |
+| d:\Archive\Corder\newclient\src\public\LoginSvg.tsx                              | TypeScript React |        111 |          0 |          2 |        113 |
+| d:\Archive\Corder\newclient\src\public\SmallSvgs.tsx                             | TypeScript React |        168 |          0 |          9 |        177 |
+| d:\Archive\Corder\newclient\src\public\pfpdef.ts                                 | TypeScript       |          1 |          0 |          1 |          2 |
+| d:\Archive\Corder\newclient\src\public\teamdef.ts                                | TypeScript       |          1 |          0 |          1 |          2 |
+| d:\Archive\Corder\newclient\src\react-app-env.d.ts                               | TypeScript       |          0 |          1 |          1 |          2 |
+| d:\Archive\Corder\newclient\src\routes.ts                                        | TypeScript       |          4 |          1 |          2 |          7 |
+| Total                                                                            |                  |      4,912 |         41 |        436 |      5,389 |
++----------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

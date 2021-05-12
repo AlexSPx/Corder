@@ -10,6 +10,7 @@ import UserCard from "../../Components/Private/UserCard";
 import UserSelector from "../../Components/Private/UserSelector";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
+import { compare } from "../../functions";
 import {
   OnlineUserInterface,
   ProjectInterface,
@@ -169,26 +170,6 @@ const AdminSettings = ({
     </div>
   );
 };
-
-function compare(arr1: any, arr2: any) {
-  if (!arr1 || !arr2) return;
-
-  let result;
-
-  arr1.forEach((e1: any, i: any) =>
-    arr2.forEach((e2: any) => {
-      if (e1.length > 1 && e2.length) {
-        result = compare(e1, e2);
-      } else if (e1 !== e2) {
-        result = false;
-      } else {
-        result = true;
-      }
-    })
-  );
-
-  return result;
-}
 
 export const Left = ({
   team,

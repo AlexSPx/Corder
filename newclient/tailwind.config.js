@@ -4,7 +4,11 @@ module.exports = {
   theme: {
     extend: {
       maxHeight: {
-        "(screen-16)": "calc(100vh - 9rem)",
+        "(screen-16)": "calc(100vh - 8rem)",
+        "(screen-24)": "calc(100vh - 14rem)",
+      },
+      minWidth: {
+        "(message-4)": "4rem",
       },
     },
   },

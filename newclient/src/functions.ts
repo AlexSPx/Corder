@@ -17,3 +17,23 @@ export const b64toBlob = (b64Data: any, contentType = "", sliceSize = 512) => {
   const blob = new Blob(byteArrays, { type: contentType });
   return blob;
 };
+
+export function compare(arr1: any, arr2: any) {
+  if (!arr1 || !arr2) return;
+
+  let result;
+
+  arr1.forEach((e1: any, i: any) =>
+    arr2.forEach((e2: any) => {
+      if (e1.length > 1 && e2.length) {
+        result = compare(e1, e2);
+      } else if (e1 !== e2) {
+        result = false;
+      } else {
+        result = true;
+      }
+    })
+  );
+
+  return result;
+}
