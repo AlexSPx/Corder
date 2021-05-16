@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-  AssignemntInterface,
+  AssignmentInterface,
   AssignmentsCollectorInterface,
   ThemeInterface,
 } from "../../Interfaces";
@@ -16,7 +16,7 @@ export default function AssignmentCollectorCard({
   teamname: string;
   projectname: string;
   collector: AssignmentsCollectorInterface;
-  assignments: AssignemntInterface[];
+  assignments: AssignmentInterface[];
   theme: ThemeInterface;
 }) {
   const history = useHistory();

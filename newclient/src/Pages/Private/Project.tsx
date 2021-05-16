@@ -5,7 +5,7 @@ import { Light } from "../../ColorTheme";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
 import {
-  AssignemntInterface,
+  AssignmentInterface,
   AssignmentsCollectorInterface,
   ProjectInterface,
   ThemeInterface,
@@ -28,10 +28,9 @@ export default function Project() {
     themeCtx?.themeData.data === undefined ? Light : themeCtx.themeData.data;
 
   const [project, setProject] = useState<ProjectInterface>();
-  const [assignments, setAssignments] = useState<AssignemntInterface[]>();
-  const [collectorAssignment, setCollectorAssignment] = useState<
-    AssignmentsCollectorInterface[]
-  >();
+  const [assignments, setAssignments] = useState<AssignmentInterface[]>();
+  const [collectorAssignment, setCollectorAssignment] =
+    useState<AssignmentsCollectorInterface[]>();
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -48,7 +47,7 @@ export default function Project() {
   }, []);
   useEffect(() => {
     const fetchAssignments = async () => {
-      const assignments = await axios.post<AssignemntInterface[]>(
+      const assignments = await axios.post<AssignmentInterface[]>(
         `${baseurl}/assignment/fetchassignments`,
         { projectID: project?.id, userID: userCtx?.userData.id },
         { withCredentials: true }
@@ -63,19 +62,13 @@ export default function Project() {
         { withCredentials: true }
       );
 
-      console.log(assignments.data);
-
       setAssignments(assignments.data.assignments);
       setCollectorAssignment(assignments.data.collectors);
     };
 
     if (project?.admins[0].includes(userCtx!.userData.id)) {
-      console.log("admin");
-
       fetchAssignmentsAdmin();
     } else {
-      console.log("regular");
-
       fetchAssignments();
     }
   }, [project]);
@@ -188,17 +181,17 @@ const Main = ({
   projectname,
   userid,
 }: {
-  assignments: AssignemntInterface[];
+  assignments: AssignmentInterface[];
   collectors?: AssignmentsCollectorInterface[];
   theme: ThemeInterface;
   teamname: string;
   projectname: string;
   userid: string;
 }) => {
-  const mapAssignemnts = assignments.map((assignemnt) => {
+  const mapAssignments = assignments.map((assignment) => {
     return (
       <AssignementCard
-        assignment={assignemnt}
+        assignment={assignment}
         theme={theme}
         teamname={teamname}
         projectname={projectname}
@@ -225,7 +218,7 @@ const Main = ({
   return (
     <div className="flex flex-col">
       {mapCollectors}
-      {mapAssignemnts}
+      {mapAssignments}
     </div>
   );
 };
@@ -343,9 +336,10 @@ const CreateAssignment = ({
   const [members, setMembers] = useState<string[]>();
   const [name, setName] = useState<string>();
   const [desc, setDesc] = useState<string>();
-  const [dates, setDates] = useState<
-    Date | [(Date | undefined)?, (Date | undefined)?] | null | undefined
-  >();
+  const [dates, setDates] =
+    useState<
+      Date | [(Date | undefined)?, (Date | undefined)?] | null | undefined
+    >();
 
   return (
     <div className="flex flex-col border w-full font-thin rounded my-2">

@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { AssignemntInterface, ThemeInterface } from "../../Interfaces";
+import { AssignmentInterface, ThemeInterface } from "../../Interfaces";
 import { DateActive, DateInactive } from "./ProjectCard";
 
 export default function AssignementCard({
@@ -10,7 +10,7 @@ export default function AssignementCard({
   projectname,
   userid,
 }: {
-  assignment: AssignemntInterface;
+  assignment: AssignmentInterface;
   theme: ThemeInterface;
   teamname: string;
   projectname: string;

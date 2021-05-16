@@ -18,11 +18,7 @@ export default function Header() {
 
   const [menu, setMenu] = useState<boolean>(false);
   const handleMenu = () => {
-    if (menu) {
-      setMenu(false);
-    } else {
-      setMenu(true);
-    }
+    setMenu(!menu);
   };
 
   return (
@@ -65,7 +61,11 @@ export default function Header() {
           onClick={handleMenu}
         />
         {menu ? (
-          <Menu email={userCtx?.userData.email as string} theme={theme} />
+          <Menu
+            email={userCtx?.userData.email as string}
+            setMenu={setMenu}
+            theme={theme}
+          />
         ) : (
           ""
         )}
@@ -74,13 +74,24 @@ export default function Header() {
   );
 }
 
-const Menu = ({ email, theme }: { email: string; theme: ThemeInterface }) => {
+const Menu = ({
+  email,
+  theme,
+  setMenu,
+}: {
+  email: string;
+  theme: ThemeInterface;
+  setMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const handleSignOut = async () => {
     // eslint-disable-next-line no-restricted-globals
     event?.preventDefault();
     axios.get(`${baseurl}/authuser/signout`, { withCredentials: true });
     window.location.reload();
   };
+
+  const history = useHistory();
+  const goto = (to: string) => history.push(to);
 
   return (
     <div
@@ -92,6 +103,10 @@ const Menu = ({ email, theme }: { email: string; theme: ThemeInterface }) => {
       >
         <div
           className={`block px-4 py-2 text-sm hover:${theme.background.light} my-1 cursor-pointer`}
+          onClick={() => {
+            goto("/profile");
+            setMenu(false);
+          }}
         >
           <p className="text-lg">Signed in as</p>
           <p className={theme.text.secondary}>{email}</p>

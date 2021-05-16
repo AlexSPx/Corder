@@ -6,16 +6,8 @@ import { AssignmentsCollector } from "../entities/assignmentsCollectorEntity";
 
 export const createAssignment = async (data: any) => {
   try {
-    const {
-      teamID,
-      projectID,
-      name,
-      range,
-      members,
-      admins,
-      desc,
-      status,
-    } = data;
+    const { teamID, projectID, name, range, members, admins, desc, status } =
+      data;
 
     const newAssignment: Assignment = {
       id: uuidv4(),
@@ -27,6 +19,7 @@ export const createAssignment = async (data: any) => {
       admins: [admins],
       description: desc,
       status,
+      submits: null,
       files: null,
       type: "group",
     };
@@ -42,16 +35,8 @@ export const createAssignment = async (data: any) => {
 
 export const createForeachAssignment = async (data: any) => {
   try {
-    const {
-      teamID,
-      projectID,
-      name,
-      range,
-      members,
-      admins,
-      desc,
-      status,
-    } = data;
+    const { teamID, projectID, name, range, members, admins, desc, status } =
+      data;
 
     let allIds: string[] = [];
     let allAssignments: Assignment[] = [];
@@ -70,6 +55,7 @@ export const createForeachAssignment = async (data: any) => {
         admins: [admins],
         description: desc,
         status,
+        submits: null,
         files: null,
         type: "foreach",
       };
@@ -165,9 +151,11 @@ export const fetchOneAssignment = async (id: any) => {
   try {
     const assignmentRepository = getRepository(Assignment);
 
-    const assignment = await assignmentRepository.find({
-      where: { id },
-    });
+    const assignment = await assignmentRepository
+      .createQueryBuilder()
+      .select()
+      .where("Assignment.id = :id", { id })
+      .getOne();
 
     return { status: true, assignment };
   } catch (err) {
@@ -215,10 +203,72 @@ export const fetchAssignmentByName = async (
   }
 };
 
-export const statusChange = async () => {
+export const statusChange = async ({
+  id,
+  status,
+}: {
+  id: string;
+  status: boolean;
+}) => {
   try {
     const assignmentRepository = getRepository(Assignment);
+    await assignmentRepository
+      .createQueryBuilder()
+      .update()
+      .set({ status: !status })
+      .where("id = :id", { id })
+      .execute();
+
+    await assignmentRepository.query(
+      `
+      UPDATE Assignments
+      SET submits = array_append(submits, $2) 
+      WHERE id = $1
+    `,
+      [id, Date.now().toString()]
+    );
+
+    return { status: true };
   } catch (err) {
+    console.log(err);
+
+    return { status: false, errors: err };
+  }
+};
+
+export const fetchFe = async (team: string, collector: string) => {
+  try {
+    const collectorRepository = getRepository(AssignmentsCollector);
+    const assignmentRepository = getRepository(Assignment);
+    const teamRepository = getRepository(Team);
+
+    const teamid = await teamRepository.findOne({
+      where: { name: team },
+      select: ["id"],
+    });
+    const collectorFe = await collectorRepository
+      .createQueryBuilder()
+      .select()
+      .where("AssignmentsCollector.teamID @> ARRAY[:teamID]", {
+        teamID: teamid!.id,
+      })
+      .andWhere("AssignmentsCollector.name = :name", { name: collector })
+      .getOne();
+
+    const assignments = await assignmentRepository
+      .createQueryBuilder()
+      .select()
+      .where("Assignment.id IN (:...ids)", { ids: collectorFe?.assignments })
+      .getMany();
+
+    const res = {
+      collector: collectorFe,
+      assignments,
+    };
+
+    return { status: true, data: res };
+  } catch (err) {
+    console.log(err);
     return { status: false, errors: err };
   }
 };

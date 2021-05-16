@@ -106,7 +106,7 @@ export interface InviteInterface {
   status: boolean;
 }
 
-export interface AssignemntInterface {
+export interface AssignmentInterface {
   id: string;
   teamID: string[];
   projectID: string;
@@ -115,6 +115,7 @@ export interface AssignemntInterface {
   range: string[] | null;
   members: string[];
   admins: string[];
+  submits: string[];
   files: string[] | null;
   description: string;
 }
@@ -129,6 +130,11 @@ export interface AssignmentsCollectorInterface {
   range: string[];
   admins: string[];
   assignments: string[];
+}
+
+export interface CollectorAdminInterface {
+  collector: AssignmentsCollectorInterface;
+  assignments: AssignmentInterface[];
 }
 
 export interface FileInterface {

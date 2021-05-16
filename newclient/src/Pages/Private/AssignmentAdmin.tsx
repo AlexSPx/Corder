@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { Light } from "../../ColorTheme";
-import FileAdder from "../../Components/Private/FileAdder";
 import FileCard from "../../Components/Private/FileCard";
 import { DateActive, DateInactive } from "../../Components/Private/ProjectCard";
 import { ThemeContext } from "../../Context/ThemeContext";
@@ -14,8 +13,8 @@ import {
 } from "../../Interfaces";
 import { baseurl } from "../../routes";
 
-export default function Assignment() {
-  const { name, assignment: assignmentname } = useParams() as any;
+export default function AssignmentAdmin() {
+  const { id } = useParams() as any;
 
   const userCtx = useContext(UserContext);
   const themeCtx = useContext(ThemeContext);
@@ -28,7 +27,7 @@ export default function Assignment() {
   useEffect(() => {
     const fetchAssignment = async () => {
       const assignmentRes = await axios.get<AssignmentInterface>(
-        `${baseurl}/assignment/fetchassignment/${name}/${assignmentname}`,
+        `${baseurl}/assignment/fetchoneassignment/${id}`,
         { withCredentials: true }
       );
       if (assignmentRes.data) {
@@ -69,7 +68,7 @@ export default function Assignment() {
       <div
         className={`flex flex-col w-1/4 h-full ${theme.background.body} border-l ${theme.border} items-center`}
       >
-        {assignment ? <Right assignment={assignment} theme={theme} /> : ""}
+        {/* {assignment ? <Right assignment={assignment} theme={theme} /> : ""} */}
       </div>
     </div>
   );
@@ -162,20 +161,4 @@ const Main = ({
   });
 
   return <div className="flex flex-col w-full overflow-auto">{mapFiles}</div>;
-};
-
-const Right = ({
-  assignment,
-  theme,
-}: {
-  assignment: AssignmentInterface;
-  theme: ThemeInterface;
-}) => {
-  return (
-    <div className="flex flex-col w-2/3 sticky top-0 font-thin items-center justify-center">
-      <div className="flex w-full items-center justify-center">
-        <FileAdder theme={theme} assignment={assignment} />
-      </div>
-    </div>
-  );
 };

@@ -28,8 +28,6 @@ export default function Login() {
       },
       credentials: "include",
     });
-
-    console.log(tokens);
     if (tokens.ok) {
       window.location.reload();
     } else {

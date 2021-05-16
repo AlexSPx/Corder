@@ -43,8 +43,6 @@ export default function InviteCard({
     const res = await axios.post(`${baseurl}/teams/invres`, reqbody, {
       withCredentials: true,
     });
-
-    console.log(res);
     window.location.reload();
   };
 
@@ -59,8 +57,6 @@ export default function InviteCard({
     const res = await axios.post(`${baseurl}/teams/invres`, reqbody, {
       withCredentials: true,
     });
-
-    console.log(res);
     window.location.reload();
   };
 

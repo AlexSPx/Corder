@@ -40,8 +40,6 @@ export default function CreateTeam() {
     );
   });
 
-  console.log(mmbArr);
-
   const handleSubmit = async () => {
     if (name && description && mmbArr && displayname) {
       const desc = { company, desc: description };
@@ -59,8 +57,6 @@ export default function CreateTeam() {
       const results = await axios.post(`${baseurl}/teams/create`, newTeam, {
         withCredentials: true,
       });
-
-      console.log(results.data);
 
       setTimeout(
         await axios.post(`${baseurl}/teams/changeimg/${results.data}`, image, {

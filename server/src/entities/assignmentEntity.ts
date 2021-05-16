@@ -27,6 +27,9 @@ export class Assignment {
   admins: string[];
 
   @Column("text", { array: true, nullable: true })
+  submits: string[] | null;
+
+  @Column("text", { array: true, nullable: true })
   files: string[] | null;
 
   @Column("text", { nullable: false })

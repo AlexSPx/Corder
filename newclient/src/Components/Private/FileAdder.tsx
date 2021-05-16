@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { AssignemntInterface, ThemeInterface } from "../../Interfaces";
+import { AssignmentInterface, ThemeInterface } from "../../Interfaces";
 import { FileAddIcon } from "../../public/SmallSvgs";
 import { baseurl } from "../../routes";
 
@@ -9,11 +9,20 @@ export default function FileAdder({
   assignment,
 }: {
   theme: ThemeInterface;
-  assignment: AssignemntInterface;
+  assignment: AssignmentInterface;
 }) {
   const [dropdown, setDropdown] = useState(false);
   const [attachfile, setAttachfile] = useState(false);
   const [addlink, setAddlink] = useState(false);
+
+  const changeStatus = async () => {
+    await axios.post(
+      `${baseurl}/assignment/changestatus/${assignment.id}`,
+      { status: assignment.status },
+      { withCredentials: true }
+    );
+    window.location.reload();
+  };
 
   return (
     <div className="flex flex-col w-full mt-3">
@@ -21,19 +30,22 @@ export default function FileAdder({
         className={`flex flex-col w-full items-center justify-center rounded border ${theme.profile} ring-opacity-5 py-8 px-6`}
       >
         <p className="flex self-start mt-3  text-lg">Subbmit work</p>
-        <AddItemButton
-          theme={theme}
-          dropdown={dropdown}
-          setDropdown={setDropdown}
-          attachfile={attachfile}
-          setAttachfile={setAttachfile}
-          addlink={addlink}
-          setAddlink={setAddlink}
-        />
+        {!assignment.status && (
+          <AddItemButton
+            theme={theme}
+            dropdown={dropdown}
+            setDropdown={setDropdown}
+            attachfile={attachfile}
+            setAttachfile={setAttachfile}
+            addlink={addlink}
+            setAddlink={setAddlink}
+          />
+        )}
         <button
           className={`flex border ${theme.buttonColor} w-full rounded-md p-2 justify-center my-2`}
+          onClick={() => changeStatus()}
         >
-          <p>Mark as done</p>
+          <p>{assignment.status ? "Unsubmit" : "Mark as done"}</p>
         </button>
       </div>
       {attachfile && (
@@ -165,7 +177,7 @@ const AttachFile = ({
   theme: ThemeInterface;
   status: boolean;
   setStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  assignment: AssignemntInterface;
+  assignment: AssignmentInterface;
 }) => {
   const [file, setFile] = useState<Blob | undefined>();
 
@@ -241,7 +253,7 @@ const Addlink = ({
   theme: ThemeInterface;
   status: boolean;
   setStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  assignment: AssignemntInterface;
+  assignment: AssignmentInterface;
 }) => {
   const [name, setName] = useState<string>();
   const [newLink, setNewLink] = useState<string>();

@@ -22,9 +22,6 @@ export default function ChatCard({
 
   const toRoom = () => {
     history.push(`/${teamName}/chats/${room.id}`);
-    console.log(room);
-
-    // selectRoom(room);
   };
 
   useEffect(() => {

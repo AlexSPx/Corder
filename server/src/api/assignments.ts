@@ -5,8 +5,10 @@ import {
   fetchAssignmentByName,
   fetchAssignments,
   fetchAssignmentsAdmin,
+  fetchFe,
   fetchOneAssignment,
   fetchUserAssignments,
+  statusChange,
 } from "../functions/assignmentFunc";
 import { isAuth } from "../functions/tokenFunc";
 
@@ -42,7 +44,17 @@ router.post("/fetchassignments", isAuth, async (req, res) => {
   }
 });
 
-router.get("/changestatus", isAuth, async (req, res) => {});
+router.post("/changestatus/:id/", isAuth, async (req, res) => {
+  const { status, errors } = await statusChange({
+    id: req.params.id,
+    status: req.body.status,
+  });
+  if (status) {
+    res.sendStatus(200);
+  } else {
+    res.status(401).json(errors);
+  }
+});
 
 router.get("/fetchassignments/admin/:id", isAuth, async (req, res) => {
   const { status, data, errors } = await fetchAssignmentsAdmin(req.params.id);
@@ -94,5 +106,18 @@ router.get(
     }
   }
 );
+
+router.get("/fetchfe/:team/:fename", isAuth, async (req, res) => {
+  const { data, status, errors } = await fetchFe(
+    req.params.team,
+    req.params.fename
+  );
+
+  if (status) {
+    res.status(200).json(data);
+  } else {
+    res.status(401).json(errors);
+  }
+});
 
 export default router;

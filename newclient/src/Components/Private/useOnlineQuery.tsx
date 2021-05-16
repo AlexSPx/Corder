@@ -18,7 +18,6 @@ export default function useOnlineQuery(ids: string[], mseconds: number) {
       if (!compare(res.data, onlineUsers)) {
         setOnlineUsers(res.data);
       }
-      console.log(`fetch`);
     };
 
     fetchOnline();

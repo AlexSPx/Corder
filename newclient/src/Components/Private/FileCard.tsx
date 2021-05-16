@@ -15,8 +15,6 @@ export default function FileCard({
   };
 
   const handleOpenDocs = () => {
-    console.log(`${docsurl}/docs/${file.id}`);
-
     window.open(`${docsurl}/docs/${file.id}`, "_blank");
   };
 

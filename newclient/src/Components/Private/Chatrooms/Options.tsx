@@ -62,8 +62,6 @@ export const ChangeIcon = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  console.log(open);
-
   return (
     <div
       className={`flex my-1 py-1 rounded-md hover:${theme.background.darker} w-5/6 justify-between items-center cursor-pointer`}

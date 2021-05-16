@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       maxHeight: {
+        "(screen-8)": "calc(83vh - 6rem)",
         "(screen-16)": "calc(100vh - 8rem)",
         "(screen-24)": "calc(100vh - 14rem)",
       },
