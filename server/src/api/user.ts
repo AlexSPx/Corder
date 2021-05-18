@@ -3,6 +3,8 @@ import {
   activation,
   authLogin,
   authReg,
+  changeEmail,
+  confrimEmailChange,
   cPassword,
   resendCode,
   saveChanges,
@@ -138,6 +140,27 @@ router.post("/cpassword", isAuth, async (req, res) => {
     req.body.user.id
   );
 
+  if (isValid) {
+    res.status(200).send(status);
+  } else {
+    res.status(401).send(errors);
+  }
+});
+
+router.get("/changes/email/:email", isAuth, async (req, res) => {
+  const { isValid, errors } = await changeEmail(req.params.email);
+  if (isValid) {
+    res.status(200).send(true);
+  } else {
+    res.status(401).send(errors);
+  }
+});
+
+router.get("/changes/cemail/:code", isAuth, async (req, res) => {
+  const { isValid, errors, status } = await confrimEmailChange(
+    req.body.user.id,
+    req.params.code
+  );
   if (isValid) {
     res.status(200).send(status);
   } else {

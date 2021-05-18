@@ -11,3 +11,16 @@ export interface IncomingMessageInterface {
   roomid: string;
   userid: string;
 }
+
+export interface regForm {
+  username: String;
+  name: String;
+  email: String;
+  password: String;
+  passwordCheck: String;
+}
+
+export interface loginForm {
+  username: String;
+  password: String;
+}

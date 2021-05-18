@@ -5,20 +5,8 @@ import { hash, compare } from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import { createAccessToken, createRefreshToken } from "./tokenFunc";
 import { Activation } from "../entities/activationEntity";
-import { mailActivationCode } from "../mailer";
-
-interface regForm {
-  username: String;
-  name: String;
-  email: String;
-  password: String;
-  passwordCheck: String;
-}
-
-interface loginForm {
-  username: String;
-  password: String;
-}
+import { changeEmailCode, mailActivationCode } from "../mailer";
+import { loginForm, regForm } from "../interfaces";
 
 export async function authReg(data: regForm): Promise<any> {
   try {
@@ -239,3 +227,41 @@ export async function cPassword(password: string, id: string) {
     return { isValid: false, errors: err };
   }
 }
+
+const tempEmail = new Map();
+
+export const changeEmail = async (email: string) => {
+  try {
+    const code = uuidv4();
+    tempEmail.set(code, email);
+
+    await changeEmailCode(email, code);
+
+    return { isValid: true };
+  } catch (err) {
+    return { isValid: false, errors: err };
+  }
+};
+
+export const confrimEmailChange = async (userid: string, code: string) => {
+  try {
+    if (!tempEmail.has(code)) {
+      return { isValid: true, status: false };
+    }
+
+    const email = tempEmail.get(code);
+
+    const userRepository = getRepository(User);
+
+    await userRepository
+      .createQueryBuilder()
+      .update()
+      .set({ email })
+      .where("id = :id", { id: userid })
+      .execute();
+
+    return { isValid: true, status: true };
+  } catch (err) {
+    return { isValid: false, errors: err };
+  }
+};

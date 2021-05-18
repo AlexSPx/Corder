@@ -2,9 +2,17 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Light } from "../../ColorTheme";
 import ConfirmPassword from "../../Components/Private/ConfirmPassword";
+import { LoadingFlexCenter } from "../../Components/Public/Loading";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
-import { EmailIcon, ImageIcon } from "../../public/SmallSvgs";
+import { ThemeInterface, userContextInterface } from "../../Interfaces";
+import {
+  CheckIcon,
+  CircleCheck,
+  CrossIcon,
+  EmailIcon,
+  ImageIcon,
+} from "../../public/SmallSvgs";
 import { baseurl } from "../../routes";
 
 export default function Profile() {
@@ -17,7 +25,6 @@ export default function Profile() {
   const [avatar, setAvatar] = useState(userCtx?.userData.avatar);
   const [username, setUsername] = useState(userCtx?.userData.username);
   const [name, setName] = useState(userCtx?.userData.name);
-  const [email, setEmail] = useState(userCtx?.userData.email);
   const [authMenu, setAuthMenu] = useState(false);
   const [authCheckP, setAuthCheckP] = useState(false);
 
@@ -131,46 +138,128 @@ export default function Profile() {
         </div>
       </div>
       <LineBreak label="Change Email" />
-      <div className="flex flex-row justify-center items-center">
-        <div className="flex flex-col mx-3">
-          <p className={`italic ${theme.text.secondary}`}>
-            Current Email: {userCtx?.userData.email}
-          </p>
-          <div className="flex flex-row items-center border-b-2">
-            <EmailIcon css="mt-1" />
+      <EmailChange theme={theme} userCtx={userCtx!} />
+    </div>
+  );
+}
+
+const EmailChange = ({
+  theme,
+  userCtx,
+}: {
+  theme: ThemeInterface;
+  userCtx: userContextInterface;
+}) => {
+  const [email, setEmail] = useState(userCtx?.userData.email);
+  const [code, setCode] = useState<string>();
+
+  const [authMenu, setAuthMenu] = useState(false);
+  const [status, setStatus] = useState();
+
+  const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useState(false);
+
+  const verifyCode = async () => {
+    if (code) {
+      const res = await axios.get(
+        `${baseurl}/authuser/changes/cemail/${code}`,
+        { withCredentials: true }
+      );
+
+      setLoading(false);
+      setStatus(res.data);
+      if (res.data) {
+        setTimeout(() => window.location.reload(), 2000);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const sendCode = async () => {
+      setStatus(undefined);
+
+      const res = await axios.get(
+        `${baseurl}/authuser/changes/email/${email}`,
+        { withCredentials: true }
+      );
+
+      if (res.data) {
+        setLoading(true);
+      }
+
+      setAuth(false);
+    };
+    if (auth) {
+      sendCode();
+    }
+  }, [auth]);
+
+  return (
+    <div className="flex flex-row justify-center items-center">
+      <div className="flex flex-col mx-3">
+        <p className={`italic ${theme.text.secondary}`}>
+          Current Email: {userCtx?.userData.email}
+        </p>
+        <div className="flex flex-row items-center border-b-2">
+          <EmailIcon css="mt-1" />
+          <input
+            className={`${theme.background.body} focus:outline-none text-xl px-4`}
+            type="text"
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+              setEmail(e.target.value)
+            }
+          />
+        </div>
+        <button
+          className={`mt-2 py-1 rounded-lg border ${theme.buttonColor}`}
+          onClick={() => setAuthMenu(true)}
+        >
+          Send Code
+        </button>
+        {authMenu && (
+          <ConfirmPassword
+            theme={theme}
+            setAuthMenu={setAuthMenu}
+            setAuth={setAuth}
+          />
+        )}
+        <div className="flex flex-col mt-3">
+          <p className={`text-xl `}>Activation Code</p>
+          <div className="flex">
             <input
-              className={`${theme.background.body} focus:outline-none text-xl px-4`}
+              className={`${theme.background.body} focus:outline-none text-xl border-b-2 w-full`}
               type="text"
-              value={email}
+              value={code}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                setEmail(e.target.value)
+                setCode(e.target.value)
               }
             />
           </div>
           <button
             className={`mt-2 py-1 rounded-lg border ${theme.buttonColor}`}
+            onClick={() => verifyCode()}
           >
-            Send Code
+            Confirm
           </button>
-          <div className="flex flex-col mt-3">
-            <p className={`text-xl `}>Activation Code</p>
-            <div className="flex">
-              <input
-                className={`${theme.background.body} focus:outline-none text-xl `}
-                type="text"
-                value={email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                  setEmail(e.target.value)
-                }
-              />
-            </div>
-          </div>
         </div>
-        <div className="flex w-36 h-36 rounded-full border"></div>
+      </div>
+      <div className="flex flex-col items-center justify-center ml-12">
+        <p className={`${theme.text.main} text-xl text-center my-1`}>Status</p>
+        <div className="flex w-36 h-36 rounded-full border">
+          {loading && <LoadingFlexCenter css="w-36 h-36" />}
+
+          {status !== undefined &&
+            (status ? (
+              <CircleCheck css="w-36 h-36" color="#34d399" />
+            ) : (
+              <CrossIcon css="w-36 h-36" color="#ef4444" />
+            ))}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 const LineBreak = ({ label }: { label: string }) => {
   return (
