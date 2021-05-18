@@ -3,6 +3,7 @@ import {
   activation,
   authLogin,
   authReg,
+  cPassword,
   resendCode,
   saveChanges,
 } from "../functions/userFunc";
@@ -126,6 +127,19 @@ router.post("/resendcode", isAuth, async (req, res) => {
 
   if (isValid) {
     res.sendStatus(200);
+  } else {
+    res.status(401).send(errors);
+  }
+});
+
+router.post("/cpassword", isAuth, async (req, res) => {
+  const { isValid, errors, status } = await cPassword(
+    req.body.password,
+    req.body.user.id
+  );
+
+  if (isValid) {
+    res.status(200).send(status);
   } else {
     res.status(401).send(errors);
   }

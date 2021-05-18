@@ -176,55 +176,34 @@ export async function authLogin(data: loginForm): Promise<any> {
 
 export async function saveChanges(data: any) {
   try {
-    const {
-      user,
-      confirmPassword,
-      newEmail,
-      newName,
-      newUsername,
-      newPassword,
-    } = data;
+    const { user, newName, newUsername } = data;
 
     const changes = <Chnages>{};
 
-    if (user.email !== newEmail) {
-      changes.email = newEmail;
-    }
     if (user.name !== newName) {
       changes.name = newName;
     }
     if (user.username !== newUsername) {
       changes.username = newUsername;
     }
-    if (newPassword) {
-      changes.password = await hash(newPassword, 12);
-    }
 
     const userRepository = getRepository(User);
-    const userDb = await userRepository.findOne({ where: { id: user.id } });
 
-    const validpass = await compare(confirmPassword, userDb?.password!);
-    if (validpass) {
-      await userRepository
-        .createQueryBuilder()
-        .update()
-        .set(changes as any)
-        .where("id = :id", { id: user.id })
-        .execute();
-      return { isValid: true };
-    } else {
-      return { isValid: false, errors: "Wrong password" };
-    }
+    await userRepository
+      .createQueryBuilder()
+      .update()
+      .set(changes as any)
+      .where("id = :id", { id: user.id })
+      .execute();
+    return { isValid: true };
   } catch (err) {
     return { isvalid: false, errors: err };
   }
 }
 
 interface Chnages {
-  email: String;
   name: String;
   username: String;
-  password: String;
 }
 
 export async function resendCode(data: any) {
@@ -240,6 +219,22 @@ export async function resendCode(data: any) {
     await mailActivationCode(email.toString(), actid?.id as string);
 
     return { isValid: true };
+  } catch (err) {
+    return { isValid: false, errors: err };
+  }
+}
+
+export async function cPassword(password: string, id: string) {
+  try {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({ id });
+
+    const passwordCheck = await compare(password, user?.password!);
+
+    if (passwordCheck) {
+      return { isValid: true, status: true };
+    }
+    return { isValid: true, status: false };
   } catch (err) {
     return { isValid: false, errors: err };
   }

@@ -91,18 +91,50 @@ export const isAuth = async (
       if (!(Date.now() >= _rjid_exp * 1000 || _rjid_exp == null)) {
         const user = verifyRefreshToken(req.cookies._rjid) as any;
 
-        req.body.user = user;
+        const userRepository = getRepository(User);
+
+        const newUserData = await userRepository
+          .createQueryBuilder()
+          .select([
+            "User.id",
+            "User.name",
+            "User.username",
+            "User.email",
+            "User.isActivated",
+            "User.isAdmin",
+          ])
+          .where("User.id = :id", { id: user.id })
+          .getOne();
+
+        req.body.user = newUserData;
         res
-          .cookie("jid", createAccessToken(user))
-          .cookie("_rjid", createRefreshToken(user));
+          .cookie("jid", createAccessToken(newUserData!))
+          .cookie("_rjid", createRefreshToken(newUserData!));
 
         next();
       } else {
         res.status(401).send(false);
       }
     } else {
-      const user = verifyAccessToken(req.cookies.jid);
-      req.body.user = user;
+      const user = verifyAccessToken(req.cookies.jid) as any;
+
+      const userRepository = getRepository(User);
+
+      const newUserData = await userRepository
+        .createQueryBuilder()
+        .select([
+          "User.id",
+          "User.name",
+          "User.username",
+          "User.email",
+          "User.isActivated",
+          "User.isAdmin",
+        ])
+        .where("User.id = :id", { id: user.id })
+        .getOne();
+
+      req.body.user = newUserData;
+      res.cookie("jid", createAccessToken(newUserData!));
 
       next();
     }
