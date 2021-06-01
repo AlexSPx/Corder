@@ -16,9 +16,9 @@ export const createProject = async (data: any): Promise<any> => {
       desc,
       teamID: [teamid],
       status: false,
-      range: [dates],
-      members: [members],
-      admins: [admins],
+      range: dates,
+      members: members,
+      admins: admins,
     };
 
     await projectRepository
@@ -35,10 +35,8 @@ export const createProject = async (data: any): Promise<any> => {
   }
 };
 
-export const fetchTeamProjects = async (data: any): Promise<any> => {
+export const fetchTeamProjects = async (teamid: any): Promise<any> => {
   try {
-    const { teamid } = data;
-
     const projectRepository = getRepository(Projects);
 
     const projects = await projectRepository.find({
@@ -115,6 +113,37 @@ export const fetchProjectByName = async (team: string, name: string) => {
 
     return { status: true, project };
   } catch (err) {
+    return { status: false, errors: err };
+  }
+};
+
+interface projectChanges {
+  id: string;
+  changes: {
+    name: string;
+    displayname: string;
+    members: string[];
+    admins: string[];
+    range: string[];
+  };
+}
+
+export const saveChanges = async (data: projectChanges) => {
+  try {
+    const { changes, id } = data;
+
+    const projectRepository = getRepository(Projects);
+
+    await projectRepository
+      .createQueryBuilder()
+      .update()
+      .set(changes)
+      .where({ id: id })
+      .execute();
+    return { status: true };
+  } catch (err) {
+    console.log(err);
+
     return { status: false, errors: err };
   }
 };

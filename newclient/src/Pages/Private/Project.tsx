@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Light } from "../../ColorTheme";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
@@ -17,6 +17,7 @@ import { DateActive, DateInactive } from "../../Components/Private/ProjectCard";
 import DropdownSelector from "../../Components/Private/DropdownSelector";
 import { AssignmentForm } from "../../Components/Private/AssignmentForm";
 import AssignmentCollectorCard from "../../Components/Private/AssignmentCollectorCard";
+import useTPAQuery from "../../Components/Private/Queries/useTPAQuery";
 
 export default function Project() {
   const { name, projectname } = useParams() as any;
@@ -32,46 +33,24 @@ export default function Project() {
   const [collectorAssignment, setCollectorAssignment] =
     useState<AssignmentsCollectorInterface[]>();
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      const projectRes = await axios.get<ProjectInterface>(
-        `${baseurl}/projects/fetchproject/${name}/${projectname}`,
-        { withCredentials: true }
-      );
+  useTPAQuery({
+    option: "Project",
+    amount: "One",
+    team: name,
+    setData: setProject,
+    name: projectname,
+  });
 
-      setProject(projectRes.data);
-    };
-
-    fetchProject();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    const fetchAssignments = async () => {
-      const assignments = await axios.post<AssignmentInterface[]>(
-        `${baseurl}/assignment/fetchassignments`,
-        { projectID: project?.id, userID: userCtx?.userData.id },
-        { withCredentials: true }
-      );
-
-      setAssignments(assignments.data);
-    };
-
-    const fetchAssignmentsAdmin = async () => {
-      const assignments = await axios.get(
-        `${baseurl}/assignment/fetchassignments/admin/${project?.id}`,
-        { withCredentials: true }
-      );
-
-      setAssignments(assignments.data.assignments);
-      setCollectorAssignment(assignments.data.collectors);
-    };
-
-    if (project?.admins[0].includes(userCtx!.userData.id)) {
-      fetchAssignmentsAdmin();
-    } else {
-      fetchAssignments();
-    }
-  }, [project]);
+  useTPAQuery({
+    option: "Assignment",
+    amount: "Many",
+    aoptions: {
+      project_id: project?.id!,
+      admin: project?.admins[0].includes(userCtx!.userData.id)!,
+      setAssignments,
+      setCollectors: setCollectorAssignment,
+    },
+  });
 
   const percentagedone = () => {
     if (assignments) {
@@ -254,6 +233,8 @@ const AdminSettings = ({
 }) => {
   const [createassignment, setCreateassignment] = useState<boolean>();
 
+  const history = useHistory();
+
   return (
     <div className="flex flex-col w-5/6 mt-6">
       <button
@@ -275,6 +256,7 @@ const AdminSettings = ({
       )}
       <button
         className={`flex border rounded-xl py-1 px-6 hover:${theme.background.light} ${theme.profile} py-2 px-10 rounded-lg my-1 justify-center`}
+        onClick={() => history.push(`${project.name}/settings`)}
       >
         Settigns
       </button>

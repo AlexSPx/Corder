@@ -4,7 +4,9 @@ import {
   authLogin,
   authReg,
   changeEmail,
+  changePassword,
   confrimEmailChange,
+  confrimPasswordChange,
   cPassword,
   resendCode,
   saveChanges,
@@ -156,13 +158,37 @@ router.get("/changes/email/:email", isAuth, async (req, res) => {
   }
 });
 
-router.get("/changes/cemail/:code", isAuth, async (req, res) => {
+router.get("/changes/email/:code/confirm", isAuth, async (req, res) => {
   const { isValid, errors, status } = await confrimEmailChange(
     req.body.user.id,
     req.params.code
   );
   if (isValid) {
     res.status(200).send(status);
+  } else {
+    res.status(401).send(errors);
+  }
+});
+
+router.get("/changes/password/:password", isAuth, async (req, res) => {
+  const { isValid, errors } = await changePassword(
+    req.params.password,
+    req.body.user.email
+  );
+  if (isValid) {
+    res.status(200).send(true);
+  } else {
+    res.status(401).send(errors);
+  }
+});
+
+router.get("/changes/password/:code/confirm", isAuth, async (req, res) => {
+  const { isValid, errors, status } = await confrimPasswordChange(
+    req.body.user.id,
+    req.params.code
+  );
+  if (isValid) {
+    res.status(200).clearCookie("jid").clearCookie("_rjid").send(status);
   } else {
     res.status(401).send(errors);
   }

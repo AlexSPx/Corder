@@ -1,4 +1,5 @@
 import express from "express";
+import { send } from "process";
 import {
   createProject,
   fetchProject,
@@ -6,6 +7,7 @@ import {
   fetchProjectByName,
   fetchProjectMembers,
   fetchTeamProjects,
+  saveChanges,
 } from "../functions/projectFunc";
 import { isAuth } from "../functions/tokenFunc";
 
@@ -21,8 +23,10 @@ router.post("/create", isAuth, async (req, res) => {
   }
 });
 
-router.post("/fetchteamprojects", isAuth, async (req, res) => {
-  const { status, projects, errors } = await fetchTeamProjects(req.body);
+router.get("/fetchteamprojects/:teamid", isAuth, async (req, res) => {
+  const { status, projects, errors } = await fetchTeamProjects(
+    req.params.teamid
+  );
 
   if (status) {
     res.status(200).json(projects);
@@ -71,6 +75,16 @@ router.get("/fetchproject/:team/:name", isAuth, async (req, res) => {
 
   if (status) {
     res.status(200).json(project);
+  } else {
+    res.status(401).json(errors);
+  }
+});
+
+router.post("/changes", isAuth, async (req, res) => {
+  const { status, errors } = await saveChanges(req.body);
+
+  if (status) {
+    res.status(200).send(true);
   } else {
     res.status(401).json(errors);
   }

@@ -12,6 +12,10 @@ const Assignment = React.lazy(() => import("./Assignment"));
 const AssignmentAdmin = React.lazy(() => import("./AssignmentAdmin"));
 const AssignmentFe = React.lazy(() => import("./AssignmentFe"));
 const TeamChats = React.lazy(() => import("./ChatRooms/TeamChats"));
+
+const TeamSettings = React.lazy(() => import("./Settings/Team"));
+const ProjectSettings = React.lazy(() => import("./Settings/Project"));
+
 const NotFound = React.lazy(() => import("../NotFound"));
 
 export default function RoutesPrivate() {
@@ -26,6 +30,14 @@ export default function RoutesPrivate() {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/teams/create" component={CreateTeam} />
             <Route exact path="/:name/projects" component={TeamProjects} />
+
+            <Route exact path="/:name/settings" component={TeamSettings} />
+            <Route
+              exact
+              path="/:name/project/:projectname/settings"
+              component={ProjectSettings}
+            />
+
             <Route
               exact
               path="/:name/project/:projectname"
@@ -46,6 +58,7 @@ export default function RoutesPrivate() {
               path="/:name/project/:projectname/:assignment/:id"
               component={AssignmentAdmin}
             />
+
             <Route path="/:name/chats/:id?" component={TeamChats} />
             <Route component={NotFound} />
           </Switch>

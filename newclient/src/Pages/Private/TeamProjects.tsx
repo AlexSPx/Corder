@@ -2,17 +2,17 @@ import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Light } from "../../ColorTheme";
 import ProjectCard from "../../Components/Private/ProjectCard";
+import useOnlineQuery from "../../Components/Private/Queries/useOnlineQuery";
+import useTPAQuery from "../../Components/Private/Queries/useTPAQuery";
 import ToggleButton from "../../Components/Private/ToggleButton";
 import UserCard from "../../Components/Private/UserCard";
 import UserSelector from "../../Components/Private/UserSelector";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
-import { compare } from "../../functions";
 import {
-  OnlineUserInterface,
   ProjectInterface,
   TeamInterface,
   ThemeInterface,
@@ -30,60 +30,15 @@ export default function TeamProjects() {
 
   const [team, setTeam] = useState<TeamInterface>();
   const [projects, setProjects] = useState<ProjectInterface[]>();
-  const [onlineUsers, setOnlineUsers] = useState<OnlineUserInterface[]>();
 
-  useEffect(() => {
-    const fetchTeam = async () => {
-      const team = await axios.post<TeamInterface[]>(
-        `${baseurl}/teams/fetchteambyname`,
-        { name },
-        { withCredentials: true }
-      );
-      setTeam(team.data[0]);
-    };
-    fetchTeam();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      const projects = await axios.post<ProjectInterface[]>(
-        `${baseurl}/projects/fetchteamprojects`,
-        {
-          teamid: team?.id,
-        },
-        { withCredentials: true }
-      );
-
-      setProjects(projects.data);
-    };
-
-    const fetchOnline = async () => {
-      const online = await axios.post<OnlineUserInterface[]>(
-        `${baseurl}/teams/fetchonline`,
-        { ids: team?.members },
-        { withCredentials: true }
-      );
-
-      // team?.members.forEach((mmbr) => {
-      //   for (const [key, value] of Object.entries(online.data)) {
-      //     if (key === "id") {
-      //       console.log(value);
-      //     }
-      //   }
-      // });
-
-      if (!compare(online.data, onlineUsers)) {
-        setOnlineUsers(online.data);
-      }
-    };
-
-    fetchProjects();
-    fetchOnline();
-    const interval = setInterval(() => fetchOnline(), 5000);
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [team]);
+  useTPAQuery({ option: "Team", amount: "One", team: name, setData: setTeam });
+  useTPAQuery({
+    option: "Project",
+    amount: "Many",
+    team: team?.id!,
+    setData: setProjects,
+  });
+  const { onlineUsers } = useOnlineQuery(team?.members!, 5000);
 
   const mapProjects = projects?.map((project) => {
     return (
@@ -147,16 +102,14 @@ const AdminSettings = ({
 }) => {
   const [createproject, setCreateproject] = useState(false);
 
+  const history = useHistory();
+
   return (
     <div className="flex flex-col">
       <button
         className={`flex ${theme.buttonColor} py-2 px-10 rounded-lg my-1 justify-center`}
         onClick={() => {
-          if (createproject) {
-            setCreateproject(false);
-          } else {
-            setCreateproject(true);
-          }
+          setCreateproject(!createproject);
         }}
       >
         Create new Project
@@ -164,6 +117,7 @@ const AdminSettings = ({
       {createproject ? <CreateProject theme={theme} team={team} /> : ""}
       <button
         className={`flex border rounded-xl py-1 px-6 hover:${theme.background.light} ${theme.profile} py-2 px-10 rounded-lg my-1 justify-center`}
+        onClick={() => history.push(`settings`)}
       >
         Settigns
       </button>

@@ -5,7 +5,11 @@ import { hash, compare } from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import { createAccessToken, createRefreshToken } from "./tokenFunc";
 import { Activation } from "../entities/activationEntity";
-import { changeEmailCode, mailActivationCode } from "../mailer";
+import {
+  changeEmailCode,
+  changePasswordCode,
+  mailActivationCode,
+} from "../mailer";
 import { loginForm, regForm } from "../interfaces";
 
 export async function authReg(data: regForm): Promise<any> {
@@ -257,6 +261,46 @@ export const confrimEmailChange = async (userid: string, code: string) => {
       .createQueryBuilder()
       .update()
       .set({ email })
+      .where("id = :id", { id: userid })
+      .execute();
+
+    return { isValid: true, status: true };
+  } catch (err) {
+    return { isValid: false, errors: err };
+  }
+};
+
+const tempPassword = new Map();
+
+export const changePassword = async (password: string, email: string) => {
+  try {
+    const code = uuidv4();
+    tempPassword.set(code, password);
+
+    await changePasswordCode(email, code);
+
+    return { isValid: true };
+  } catch (err) {
+    return { isValid: false, errors: err };
+  }
+};
+
+export const confrimPasswordChange = async (userid: string, code: string) => {
+  try {
+    if (!tempPassword.has(code)) {
+      return { isValid: true, status: false };
+    }
+
+    const password = tempPassword.get(code);
+
+    const userRepository = getRepository(User);
+
+    const hashedPassword = await hash(password, 12);
+
+    await userRepository
+      .createQueryBuilder()
+      .update()
+      .set({ password: hashedPassword })
       .where("id = :id", { id: userid })
       .execute();
 

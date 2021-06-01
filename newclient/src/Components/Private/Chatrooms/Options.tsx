@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChatRoom, SingleUser, ThemeInterface } from "../../../Interfaces";
 import { ImageIcon } from "../../../public/SmallSvgs";
 import ImageCrop from "../ImageCrop";
-import useOnlineQuery from "../useOnlineQuery";
+import useOnlineQuery from "../Queries/useOnlineQuery";
 import { Offline, Online } from "../UserCard";
 
 export const ShowMembers = ({

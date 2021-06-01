@@ -96,11 +96,9 @@ export const createForeachAssignment = async (data: any) => {
   }
 };
 
-export const fetchAssignments = async (data: any) => {
+export const fetchAssignments = async (projectID: string, userID: string) => {
   try {
     const assignmentRepository = getRepository(Assignment);
-
-    const { projectID, userID } = data;
 
     if (projectID && userID) {
       const assignments = await assignmentRepository

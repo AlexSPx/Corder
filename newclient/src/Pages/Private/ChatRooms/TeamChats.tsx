@@ -27,12 +27,11 @@ export default function TeamChats() {
 
   useEffect(() => {
     const fetchTeam = async () => {
-      const team = await axios.post<TeamInterface[]>(
-        `${baseurl}/teams/fetchteambyname`,
-        { name },
+      const team = await axios.get<TeamInterface>(
+        `${baseurl}/teams/fetchteambyname/${name}`,
         { withCredentials: true }
       );
-      setTeam(team.data[0]);
+      setTeam(team.data);
     };
     fetchTeam();
   }, [name]);

@@ -66,7 +66,7 @@ export interface SignupInterface {
 }
 
 export interface ProjectInterface {
-  id: string[];
+  id: string;
   name: string;
   displayname: string | null;
   desc: string;
@@ -89,7 +89,7 @@ export interface TeamInterface {
   image: BufferM | null;
 }
 
-interface BufferM {
+export interface BufferM {
   type: string;
   data: Buffer;
 }
@@ -159,4 +159,10 @@ export interface MessageInterface {
   message: string;
   roomid: string;
   userid: string;
+}
+
+export interface NotificationInterface {
+  type: "Success";
+  title: string;
+  desc: string;
 }

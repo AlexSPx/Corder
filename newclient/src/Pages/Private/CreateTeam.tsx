@@ -118,7 +118,6 @@ export default function CreateTeam() {
             func={setDescription}
             label="Set Description"
             theme={theme}
-            css=""
           />
           <div className="flex">{mapInvites}</div>
         </div>
@@ -154,19 +153,21 @@ export default function CreateTeam() {
   );
 }
 
-const Input = ({
+export const Input = ({
   func,
   label,
   placeholder,
   type,
   theme,
+  value,
   css,
 }: {
   func: any;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   type: "password" | "text";
   theme: ThemeInterface;
+  value?: any;
   css: string;
 }) => {
   return (
@@ -175,6 +176,7 @@ const Input = ({
       <input
         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ${theme.background.main} ${theme.border}`}
         type={type}
+        value={value}
         placeholder={placeholder}
         onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
           func(e.target.value)
@@ -184,22 +186,25 @@ const Input = ({
   );
 };
 
-const TextBox = ({
+export const TextBox = ({
   func,
   label,
+  value,
   theme,
   css,
 }: {
   func: any;
   label: string;
+  value?: string;
   theme: ThemeInterface;
-  css: string;
+  css?: string;
 }) => {
   return (
     <div className={`${css} my-1`}>
       <label className="block text-grey-darker text-sm mb-1">{label}</label>
       <textarea
         placeholder="Team description"
+        value={value}
         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ${theme.background.main} ${theme.border}`}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
           func(e.target.value)

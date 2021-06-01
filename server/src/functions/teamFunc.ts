@@ -154,17 +154,15 @@ export const fetchTeam = async (data: any) => {
   }
 };
 
-export const fetchTeamByName = async (data: any) => {
+export const fetchTeamByName = async (name: string) => {
   try {
-    const { name } = data;
-
     if (!name) {
       return { status: false, errors: "name was not provided" };
     }
 
     const teamRepository = getRepository(Team);
 
-    const team = await teamRepository.find({ where: { name: name } });
+    const team = await teamRepository.findOne({ where: { name: name } });
 
     if (!team) {
       return { status: false, errors: "team not found" };

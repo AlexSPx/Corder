@@ -43,3 +43,12 @@
   background-color: #a0aec0;
   /*outline: 1px solid slategrey;*/
 }
+
+/* div overlay */
+.hover-none {
+  display: none;
+}
+
+.hover-none:hover {
+  display: block;
+}

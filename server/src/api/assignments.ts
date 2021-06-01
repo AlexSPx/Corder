@@ -34,8 +34,11 @@ router.post("/createforeach", isAuth, async (req, res) => {
   }
 });
 
-router.post("/fetchassignments", isAuth, async (req, res) => {
-  const { status, assignments, errors } = await fetchAssignments(req.body);
+router.get("/fetchassignments/:project", isAuth, async (req, res) => {
+  const { status, assignments, errors } = await fetchAssignments(
+    req.params.project,
+    req.body.user.id
+  );
 
   if (status) {
     res.status(200).json(assignments);

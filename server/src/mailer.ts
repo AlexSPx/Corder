@@ -25,3 +25,12 @@ export const changeEmailCode = async (toWho: string, code: string) => {
     text: "Your reset code is: " + code,
   });
 };
+
+export const changePasswordCode = async (toWho: string, code: string) => {
+  await transporter.sendMail({
+    from: '"Corder Service" <corderservice@gmail.com>',
+    to: toWho,
+    subject: "Corder - change email",
+    text: "Your confirmation code is: " + code,
+  });
+};

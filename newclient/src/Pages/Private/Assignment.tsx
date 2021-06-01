@@ -5,6 +5,7 @@ import { Light } from "../../ColorTheme";
 import FileAdder from "../../Components/Private/FileAdder";
 import FileCard from "../../Components/Private/FileCard";
 import { DateActive, DateInactive } from "../../Components/Private/ProjectCard";
+import useTPAQuery from "../../Components/Private/Queries/useTPAQuery";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { UserContext } from "../../Context/UserContext";
 import {
@@ -25,20 +26,13 @@ export default function Assignment() {
   const [assignment, setAssignment] = useState<AssignmentInterface>();
   const [files, setFiles] = useState<FileInterface[]>();
 
-  useEffect(() => {
-    const fetchAssignment = async () => {
-      const assignmentRes = await axios.get<AssignmentInterface>(
-        `${baseurl}/assignment/fetchassignment/${name}/${assignmentname}`,
-        { withCredentials: true }
-      );
-      if (assignmentRes.data) {
-        setAssignment(assignmentRes.data);
-      }
-    };
-
-    fetchAssignment();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useTPAQuery({
+    option: "Assignment",
+    amount: "One",
+    team: name,
+    name: assignmentname,
+    setData: setAssignment,
+  });
 
   useEffect(() => {
     const fetchFiles = async () => {

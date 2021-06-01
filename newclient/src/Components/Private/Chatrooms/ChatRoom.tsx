@@ -16,6 +16,7 @@ import { LoadingFlexCenter } from "../../Public/Loading";
 import useMessageQuery from "./useMessageQuery";
 import Message from "./Message";
 import { ChangeIcon, ShowMembers } from "./Options";
+import useFetchMembers from "../Queries/useFetchMembersQuery";
 
 export default function ChatRoomD({
   room,
@@ -25,20 +26,8 @@ export default function ChatRoomD({
   theme: ThemeInterface;
 }) {
   const [showMembers, setShowMembers] = useState(false);
-  const [allMembers, setAllMembers] = useState<SingleUser[]>();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const resUsers = await axios.post(
-        `${baseurl}/teams/fetchteammembers`,
-        { ids: room.members },
-        { withCredentials: true }
-      );
-      setAllMembers(resUsers.data);
-    };
-    fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { members: allMembers } = useFetchMembers(room.members);
 
   return (
     <div className="flex flex-row w-full h-full ">

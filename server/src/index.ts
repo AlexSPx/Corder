@@ -78,8 +78,8 @@ dotenv.config();
     })
   );
   app.use(cookieParser());
-  app.use(bodyparser.urlencoded({ extended: true }));
-  app.use(bodyparser.json());
+  app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
+  app.use(bodyparser.json({ limit: "50mb" }));
 
   //sockets
   io.on("connection", (socket: Socket) => {

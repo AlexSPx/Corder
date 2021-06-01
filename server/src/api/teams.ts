@@ -58,8 +58,8 @@ router.post("/fetchteam", isAuth, async (req, res) => {
   }
 });
 
-router.post("/fetchteambyname", isAuth, async (req, res) => {
-  const { status, errors, team } = await fetchTeamByName(req.body);
+router.get("/fetchteambyname/:team", isAuth, async (req, res) => {
+  const { status, errors, team } = await fetchTeamByName(req.params.team);
 
   if (status) {
     res.status(200).json(team);

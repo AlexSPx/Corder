@@ -11,6 +11,7 @@ module.exports = {
       minWidth: {
         "(message-4)": "4rem",
       },
+      position: ["hover", "focus"],
     },
   },
   variants: {

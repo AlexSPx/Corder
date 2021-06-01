@@ -73,14 +73,18 @@ export default function TeamCard({
           {team.description.desc}
         </p>
       </div>
-      {team.admins.includes(user.id) ? <Settings /> : ""}
+      {team.admins.includes(user.id) ? <Settings team={team.name} /> : ""}
     </div>
   );
 }
 
-const Settings = () => {
+const Settings = ({ team }: { team: string }) => {
+  const history = useHistory();
   return (
-    <div className="flex flex-grow items-center justify-center">
+    <div
+      className="flex flex-grow items-center justify-center"
+      onClick={() => history.push(`${team}/settings`)}
+    >
       <CogIcon css="cursor-pointer" />
     </div>
   );
