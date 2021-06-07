@@ -10,26 +10,7 @@ import { readFile } from "fs/promises";
 
 const router = Router();
 
-router.post("/test", save.single("file"), (req, res) => {
-  res.sendStatus(200);
-});
-
-const initialDocData = [
-  {
-    type: "paragraph",
-    children: [
-      { text: "An opening paragraph with a " },
-      {
-        type: "link",
-        url: "https://example.com",
-        children: [{ text: "link" }],
-      },
-      { text: " in it." },
-    ],
-  },
-  { type: "quote", children: [{ text: "A wise quote." }] },
-  { type: "paragraph", children: [{ text: "A closing paragraph!POGGG" }] },
-];
+const initialDocData = { ops: [{ insert: "\n" }] };
 
 router.post("/newdoc", isAuth, async (req, res) => {
   try {
@@ -43,7 +24,8 @@ router.post("/newdoc", isAuth, async (req, res) => {
       teamID: req.body.teamid,
       file: JSON.stringify(initialDocData),
       type: "document",
-      name: Date.now().toString(),
+      name: req.body.name,
+      members: req.body.members,
     });
 
     const assign = await assignmentRepository.findOne({
@@ -96,6 +78,8 @@ router.post("/fetchfiles", isAuth, async (req, res) => {
         where: { id: In(req.body.ids) },
       })
       .catch((err) => {
+        console.log(err);
+
         res.status(200).json(false);
       });
 
@@ -112,7 +96,7 @@ router.post("/savedoc", isAuth, async (req, res) => {
     await filesRepository
       .createQueryBuilder()
       .update()
-      .set({ file: req.body.file })
+      .set({ file: JSON.stringify(req.body.file) })
       .where("id = :id", { id: req.body.id })
       .execute();
     res.sendStatus(200);
@@ -225,6 +209,25 @@ router.post("/word/download", isAuth, async (req, res) => {
     const fl = await readFile(filepath);
     res.send(fl);
   } catch (err) {
+    res.send(err);
+  }
+});
+
+router.get("/myfiles", isAuth, async (req, res) => {
+  try {
+    const id = req.body.user.id;
+
+    const filesRepository = getRepository(Files);
+
+    const files = await filesRepository
+      .createQueryBuilder()
+      .where("members @> ARRAY[:id]", { id })
+      .getMany();
+
+    res.status(200).send(files);
+  } catch (err) {
+    console.log(err);
+
     res.send(err);
   }
 });

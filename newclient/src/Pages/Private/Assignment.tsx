@@ -37,11 +37,10 @@ export default function Assignment() {
   useEffect(() => {
     const fetchFiles = async () => {
       const files = await axios.post<FileInterface[]>(
-        `${baseurl}/files/fetchfiles/`,
+        `${baseurl}/files/fetchfiles`,
         { ids: assignment?.files },
         { withCredentials: true }
       );
-
       setFiles(files.data);
     };
 

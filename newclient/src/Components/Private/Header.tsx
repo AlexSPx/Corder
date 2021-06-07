@@ -43,14 +43,14 @@ export default function Header() {
             theme.text.main
           }
         />
-        <Button
+        {/* <Button
           label="To-do"
           to="/todo"
           css={
             "flex mx-2 py-2 px-4 font-thin text-xl cursor-pointer " +
             theme.text.main
           }
-        />
+        /> */}
       </div>
 
       <div className="relative">

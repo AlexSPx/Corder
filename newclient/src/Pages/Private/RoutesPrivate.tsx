@@ -6,6 +6,7 @@ const Main = React.lazy(() => import("./Main"));
 const Teams = React.lazy(() => import("./Teams"));
 const Profile = React.lazy(() => import("./Profile"));
 const TeamProjects = React.lazy(() => import("./TeamProjects"));
+const TeamMembers = React.lazy(() => import("./TeamMembers"));
 const CreateTeam = React.lazy(() => import("./CreateTeam"));
 const Project = React.lazy(() => import("./Project"));
 const Assignment = React.lazy(() => import("./Assignment"));
@@ -30,6 +31,7 @@ export default function RoutesPrivate() {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/teams/create" component={CreateTeam} />
             <Route exact path="/:name/projects" component={TeamProjects} />
+            <Route exact path="/:name/members" component={TeamMembers} />
 
             <Route exact path="/:name/settings" component={TeamSettings} />
             <Route

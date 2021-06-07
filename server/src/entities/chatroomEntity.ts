@@ -19,4 +19,7 @@ export class Chatroom {
 
   @Column("text", { array: true, nullable: false })
   admins: string;
+
+  @Column("text", { array: true, nullable: true })
+  messages: string[] | null;
 }

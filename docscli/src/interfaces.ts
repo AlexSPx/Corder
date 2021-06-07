@@ -14,3 +14,12 @@ export interface userContextInterface {
   userData: userDataInterface;
   setUserData: any;
 }
+
+export interface DocumentInterface {
+  id: string;
+  file: string;
+  members: string[];
+  name: string;
+  teamID: string;
+  type: "document";
+}

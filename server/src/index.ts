@@ -27,6 +27,7 @@ import { Message } from "./entities/messageEntity";
 import { Chatroom } from "./entities/chatroomEntity";
 import { addMessage } from "./functions/messagesFunc";
 import { IncomingMessageInterface, onlineUser } from "./interfaces";
+import { saveDocs } from "./functions/fileFunc";
 
 dotenv.config();
 
@@ -87,10 +88,7 @@ dotenv.config();
       addUser(socket.id, user);
     });
 
-    socket.on("new-operations", (data: any) => {
-      io.emit(`new-remote-operations-${data.docid}`, data);
-    });
-
+    // messages
     socket.on("send-message", (data: IncomingMessageInterface) => {
       const { id } = addMessage(data);
 
@@ -109,6 +107,15 @@ dotenv.config();
     });
     socket.on("stop-typing", (id: string) => {
       socket.broadcast.emit("stop-typing", id);
+    });
+
+    // docs
+    socket.on("docs-change", (data: { delta: any; id: string }) => {
+      socket.broadcast.emit(`remote-change-${data.id}`, data.delta);
+    });
+
+    socket.on("save-document", (data: { file: any; id: string }) => {
+      saveDocs(data);
     });
 
     socket.on("disconnect", () => {

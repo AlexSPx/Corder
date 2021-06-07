@@ -108,8 +108,12 @@ export const isAuth = async (
 
         req.body.user = newUserData;
         res
-          .cookie("jid", createAccessToken(newUserData!))
-          .cookie("_rjid", createRefreshToken(newUserData!));
+          .cookie("jid", createAccessToken(newUserData!), {
+            httpOnly: true,
+          })
+          .cookie("_rjid", createRefreshToken(newUserData!), {
+            httpOnly: true,
+          });
 
         next();
       } else {
@@ -134,7 +138,9 @@ export const isAuth = async (
         .getOne();
 
       req.body.user = newUserData;
-      res.cookie("jid", createAccessToken(newUserData!));
+      res.cookie("jid", createAccessToken(newUserData!), {
+        httpOnly: true,
+      });
 
       next();
     }

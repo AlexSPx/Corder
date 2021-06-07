@@ -1,7 +1,5 @@
 import React, { createContext } from "react";
-import { userContextInterface, userDataInterface } from "../Interfaces";
-
-type SetValue = (value: any) => void;
+import { userContextInterface, userDataInterface } from "../interfaces";
 
 export const UserContext = createContext<userContextInterface | null>(null);
 

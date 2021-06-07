@@ -14,6 +14,9 @@ export class Files {
   @Column("text", { nullable: false })
   name: string;
 
+  @Column("text", { array: true, nullable: true })
+  members: string[];
+
   @Column({ nullable: false })
   type: "html" | "document" | "link" | "docx";
 }

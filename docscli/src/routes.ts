@@ -1,5 +1,5 @@
-// const url = "https://corder-bg.xyz" //production
-const url = "http://localhost:5001"; //dev
+const url = "https://corder-bg.xyz"; //production
+// const url = "http://localhost:5001"; //dev
 
 export const baseurl = `${url}/api`;
 export const socketurl = `${url}/`;

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { AssignmentInterface, ThemeInterface } from "../../Interfaces";
 import { FileAddIcon } from "../../public/SmallSvgs";
 import { baseurl } from "../../routes";
+import ToggleButton from "./ToggleButton";
+import UserSelector from "./UserSelector";
 
 export default function FileAdder({
   theme,
@@ -14,6 +16,7 @@ export default function FileAdder({
   const [dropdown, setDropdown] = useState(false);
   const [attachfile, setAttachfile] = useState(false);
   const [addlink, setAddlink] = useState(false);
+  const [newDocument, setNewDocument] = useState(false);
 
   const changeStatus = async () => {
     await axios.post(
@@ -39,6 +42,8 @@ export default function FileAdder({
             setAttachfile={setAttachfile}
             addlink={addlink}
             setAddlink={setAddlink}
+            newDocument={newDocument}
+            setNewDocument={setNewDocument}
           />
         )}
         <button
@@ -64,6 +69,14 @@ export default function FileAdder({
           assignment={assignment}
         />
       )}
+      {newDocument && (
+        <CreateDoc
+          theme={theme}
+          status={newDocument}
+          setStatus={setNewDocument}
+          assignment={assignment}
+        />
+      )}
     </div>
   );
 }
@@ -76,6 +89,8 @@ const AddItemButton = ({
   setAttachfile,
   addlink,
   setAddlink,
+  newDocument,
+  setNewDocument,
 }: {
   theme: ThemeInterface;
   dropdown: boolean;
@@ -84,6 +99,8 @@ const AddItemButton = ({
   setAttachfile: React.Dispatch<React.SetStateAction<boolean>>;
   addlink: boolean;
   setAddlink: React.Dispatch<React.SetStateAction<boolean>>;
+  newDocument: boolean;
+  setNewDocument: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <>
@@ -102,6 +119,8 @@ const AddItemButton = ({
             setDropdown={setDropdown}
             addlink={addlink}
             setAddlink={setAddlink}
+            newDocument={newDocument}
+            setNewDocument={setNewDocument}
           />
         )}
       </div>
@@ -116,6 +135,8 @@ const Dropmenu = ({
   setDropdown,
   addlink,
   setAddlink,
+  newDocument,
+  setNewDocument,
 }: {
   attachfile: boolean;
   setAttachfile: React.Dispatch<React.SetStateAction<boolean>>;
@@ -123,6 +144,8 @@ const Dropmenu = ({
   setDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   addlink: boolean;
   setAddlink: React.Dispatch<React.SetStateAction<boolean>>;
+  newDocument: boolean;
+  setNewDocument: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <div
@@ -159,11 +182,91 @@ const Dropmenu = ({
           className="text-gray-700 block px-4 py-2 text-sm cursor-pointer hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
           tabIndex={-1}
-          id="menu-item-2"
+          onClick={() => {
+            setNewDocument(true);
+            setDropdown(!dropdown);
+          }}
         >
           Document
         </p>
       </div>
+    </div>
+  );
+};
+
+const CreateDoc = ({
+  theme,
+  status,
+  setStatus,
+  assignment,
+}: {
+  theme: ThemeInterface;
+  status: boolean;
+  setStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  assignment: AssignmentInterface;
+}) => {
+  const [toggleMembers, setToggleMembers] = useState(false);
+  const [members, setMembers] = useState<string[]>([]);
+  const [name, setName] = useState<string>();
+
+  const handleAction = async () => {
+    const newDocument = {
+      name,
+      teamid: assignment.teamID[0],
+      assignmentid: assignment.id,
+      members: toggleMembers ? members : assignment.members,
+    };
+
+    await axios.post(`${baseurl}/files/newdoc`, newDocument, {
+      withCredentials: true,
+    });
+
+    window.location.reload();
+  };
+
+  return (
+    <div
+      className={`flex flex-col border ${theme.profile} w-full font-thin rounded my-2 items-center`}
+    >
+      <p className="text-xl text-center my-2">Add new link</p>
+      <div className="flex flex-col w-full">
+        <label className="text-lg ml-1">Name</label>
+        <input
+          type="text"
+          placeholder="project name"
+          className={`appearance-none border w-full py-2 px-3 text-grey-darker m ${theme.background.main} ${theme.border}`}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+            setName(e.target.value)
+          }
+        />
+      </div>
+      <div className="flex flex-col w-full">
+        <label className="text-lg ml-1">Specify Members?</label>
+        <ToggleButton value={toggleMembers} onChange={setToggleMembers} />
+      </div>
+      {toggleMembers && (
+        <div className="border-t border-b">
+          <UserSelector
+            ids={assignment.members as any}
+            selected={members}
+            setSelected={setMembers as any}
+          />
+        </div>
+      )}
+
+      <button
+        className={`flex ${theme.buttonColor} py-2 px-10 w-full justify-center mt-2`}
+        onClick={() => handleAction()}
+      >
+        Submit
+      </button>
+      <div className={`border-b ${theme.border}`}></div>
+      <button
+        className={`flex ${theme.buttonColor} py-2 px-10 w-full justify-center`}
+        onClick={() => setStatus(!status)}
+      >
+        Cancel
+      </button>
     </div>
   );
 };
@@ -181,7 +284,7 @@ const AttachFile = ({
 }) => {
   const [file, setFile] = useState<Blob | undefined>();
 
-  const handleAcction = async () => {
+  const handleAction = async () => {
     if (file) {
       const fileTransfer = new FormData();
       fileTransfer.append("word", file);
@@ -229,7 +332,7 @@ const AttachFile = ({
 
       <button
         className={`flex ${theme.buttonColor} py-2 px-10 w-full justify-center`}
-        onClick={() => handleAcction()}
+        onClick={() => handleAction()}
       >
         Submit
       </button>

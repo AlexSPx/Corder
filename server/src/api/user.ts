@@ -39,6 +39,12 @@ router.post("/register", upload.single("avatar"), async (req, res) => {
   }
 });
 
+router.get("/test", (req, res) => {
+  console.log(req.cookies);
+
+  res.status(200).send("success");
+});
+
 router.post("/login", async (req, res) => {
   const { isValid, errors, accessToken, refreshToken } = await authLogin(
     req.body
